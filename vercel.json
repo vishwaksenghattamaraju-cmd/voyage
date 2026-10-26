@@ -1,3 +1,4 @@
+
 {
   "version": 2,
   "builds": [
@@ -8,8 +9,12 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/api/(.*)",
       "dest": "api/index.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
