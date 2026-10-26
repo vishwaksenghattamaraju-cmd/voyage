@@ -27,10 +27,16 @@ from flask import Flask, jsonify, render_template, request
 load_dotenv()
 
 from agents import AgentError, get_active_provider, run_agents
-from places_service import (
+from destinations_service import (
+    get_attraction_by_id,
     get_autocomplete_suggestions,
+    get_catalog_facets,
+    get_destination_autocomplete,
     get_place_details,
     is_google_places_configured,
+    load_attractions,
+    recommend_attractions_for_trip,
+    search_attractions,
 )
 from planner.destination_agent import recommend_destinations
 from storage import (
@@ -255,6 +261,22 @@ def validate_plan_request(data: Any) -> Tuple[Optional[Dict[str, Any]], Optional
                 climate = ac
                 break
 
+    # 7. Selected Attractions (Optional)
+    raw_selected = data.get("selected_attractions", [])
+    cleaned_attractions: List[Any] = []
+    if isinstance(raw_selected, list):
+        for it in raw_selected[:15]:
+            if isinstance(it, str) and it.strip():
+                cleaned_attractions.append(it.strip()[:100])
+            elif isinstance(it, dict) and it.get("name"):
+                cleaned_attractions.append({
+                    "name": str(it.get("name"))[:100],
+                    "city": str(it.get("city", ""))[:60],
+                    "country": str(it.get("country", ""))[:60],
+                    "category": str(it.get("category", ""))[:40],
+                    "description": str(it.get("description", ""))[:300],
+                })
+
     return {
         "destination": destination,
         "duration_days": raw_days,
@@ -264,6 +286,7 @@ def validate_plan_request(data: Any) -> Tuple[Optional[Dict[str, Any]], Optional
         "climate": climate,
         "place_id": place_id,
         "location_context": location_context,
+        "selected_attractions": cleaned_attractions,
     }, None
 
 
@@ -295,6 +318,99 @@ def index():
         has_google_places=is_google_places_configured(),
         cache_bust=int(time.time()),
     )
+
+
+@app.route("/api/destinations/search", methods=["GET"])
+def destinations_search():
+    """Faceted search across worldwide tourist destinations and attractions."""
+    query = request.args.get("query", "")
+    continent = request.args.get("continent", "")
+    country = request.args.get("country", "")
+    category = request.args.get("category", "")
+    budget = request.args.get("budget", "")
+    traveler_type = request.args.get("traveler_type", "")
+    tag = request.args.get("tag", "")
+    sort_by = request.args.get("sort_by", "name")
+    
+    try:
+        limit = max(1, min(100, int(request.args.get("limit", 50))))
+    except (ValueError, TypeError):
+        limit = 50
+
+    try:
+        offset = max(0, int(request.args.get("offset", 0)))
+    except (ValueError, TypeError):
+        offset = 0
+
+    res = search_attractions(
+        query=query,
+        continent=continent,
+        country=country,
+        category=category,
+        budget=budget,
+        traveler_type=traveler_type,
+        tag=tag,
+        sort_by=sort_by,
+        limit=limit,
+        offset=offset,
+    )
+    return jsonify({"ok": True, **res}), 200
+
+
+@app.route("/api/destinations/autocomplete", methods=["GET"])
+def destinations_autocomplete():
+    """Fast, local typeahead autocomplete by destination name, city, country, or tag."""
+    query = request.args.get("query") or request.args.get("input") or ""
+    try:
+        limit = max(1, min(20, int(request.args.get("limit", 8))))
+    except (ValueError, TypeError):
+        limit = 8
+    suggestions = get_destination_autocomplete(query=query, limit=limit)
+    return jsonify({"ok": True, "suggestions": suggestions}), 200
+
+
+@app.route("/api/destinations/facets", methods=["GET"])
+def destinations_facets():
+    """Return filter facets with attraction counts for continents, countries, categories, etc."""
+    facets = get_catalog_facets()
+    return jsonify({"ok": True, "facets": facets}), 200
+
+
+@app.route("/api/destinations/<attraction_id>", methods=["GET"])
+def destinations_get_by_id(attraction_id: str):
+    """Retrieve full details for a single tourist attraction by its ID."""
+    attraction = get_attraction_by_id(attraction_id)
+    if not attraction:
+        return jsonify({"ok": False, "error": {"code": "NOT_FOUND", "message": "Attraction not found"}}), 404
+    return jsonify({"ok": True, "attraction": attraction}), 200
+
+
+@app.route("/api/destinations/recommend", methods=["POST"])
+def destinations_recommend():
+    """Recommend attractions from the worldwide database matching trip parameters."""
+    payload = request.get_json(silent=True) or {}
+    dest = payload.get("destination", "")
+    budget = payload.get("budget", "Moderate")
+    raw_days = payload.get("duration_days", 3)
+    duration_days = raw_days if isinstance(raw_days, int) and 1 <= raw_days <= MAX_DAYS else 3
+    interests = payload.get("interests", [])
+    companions = payload.get("companions", "Solo")
+    climate = payload.get("climate", "Any")
+    try:
+        limit = max(1, min(20, int(payload.get("limit", 6))))
+    except (ValueError, TypeError):
+        limit = 6
+
+    recs = recommend_attractions_for_trip(
+        destination=dest,
+        budget=budget,
+        duration_days=duration_days,
+        interests=interests,
+        companions=companions,
+        climate=climate,
+        limit=limit,
+    )
+    return jsonify({"ok": True, "recommendations": recs}), 200
 
 
 @app.route("/api/places/autocomplete", methods=["GET"])
@@ -365,6 +481,8 @@ def create_plan():
             agent_kwargs["place_id"] = cleaned["place_id"]
         if cleaned.get("location_context"):
             agent_kwargs["location_context"] = cleaned["location_context"]
+        if cleaned.get("selected_attractions"):
+            agent_kwargs["selected_attractions"] = cleaned["selected_attractions"]
 
         plan = run_agents(**agent_kwargs)
     except AgentError as agent_err:

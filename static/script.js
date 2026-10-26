@@ -69,13 +69,38 @@ const savedTripsBadge = document.getElementById("saved-trips-badge");
 
 // Navigation buttons
 const navDashboard = document.getElementById("nav-dashboard");
+const navExplore = document.getElementById("nav-explore");
 const navPlanner = document.getElementById("nav-planner");
 const navSavedTrips = document.getElementById("nav-saved-trips");
 
 // Views
 const viewDashboard = document.getElementById("view-dashboard");
+const viewExplore = document.getElementById("view-explore");
 const viewPlanner = document.getElementById("view-planner");
 const viewSavedTrips = document.getElementById("view-saved-trips");
+
+// Explore View Elements
+const exploreSearchInput = document.getElementById("explore-search-input");
+const exploreClearSearch = document.getElementById("explore-clear-search");
+const exploreFilterCountry = document.getElementById("explore-filter-country");
+const exploreFilterCategory = document.getElementById("explore-filter-category");
+const exploreFilterBudget = document.getElementById("explore-filter-budget");
+const exploreFilterTraveler = document.getElementById("explore-filter-traveler");
+const exploreGrid = document.getElementById("explore-grid");
+const exploreEmptyState = document.getElementById("explore-empty-state");
+const exploreResultsCount = document.getElementById("explore-results-count");
+const btnExploreResetFilters = document.getElementById("btn-explore-reset-filters");
+const btnExploreToPlanner = document.getElementById("btn-explore-to-planner");
+const btnExploreResetEmpty = document.getElementById("btn-explore-reset-empty");
+const exploreSelectedBanner = document.getElementById("explore-selected-banner");
+const queueCount = document.getElementById("queue-count");
+const queueItemsPreview = document.getElementById("queue-items-preview");
+const btnClearSelectedAttractions = document.getElementById("btn-clear-selected-attractions");
+const btnApplySelectedToPlan = document.getElementById("btn-apply-selected-to-plan");
+const btnBrowseCatalogLink = document.getElementById("btn-browse-catalog-link");
+const selectedAttractionsContainer = document.getElementById("selected-attractions-container");
+const noAttractionsHint = document.getElementById("no-attractions-hint");
+const sidebarAttractionsCount = document.getElementById("sidebar-attractions-count");
 
 // Planner Form elements
 const plannerForm = document.getElementById("planner-form");
@@ -113,6 +138,7 @@ const btnEmptyStartPlanning = document.getElementById("btn-empty-start-planning"
 
 // Dashboard Shortcuts
 const btnHeroPlan = document.getElementById("btn-hero-plan");
+const btnHeroExplore = document.getElementById("btn-hero-explore");
 const btnHeroSaved = document.getElementById("btn-hero-saved");
 
 // Delete Dialog
@@ -126,18 +152,18 @@ const btnConfirmDelete = document.getElementById("btn-confirm-delete");
 // =====================================================================
 
 /**
- * Switch the active view between 'dashboard', 'planner', and 'saved-trips'.
+ * Switch the active view between 'dashboard', 'explore', 'planner', and 'saved-trips'.
  *
  * @param {string} viewName - Target view ID suffix.
  * @param {boolean} [updateHash=true] - Whether to push state to location.hash.
  */
 function switchView(viewName, updateHash = true) {
-  const validViews = ["dashboard", "planner", "saved-trips"];
+  const validViews = ["dashboard", "explore", "planner", "saved-trips"];
   const target = validViews.includes(viewName) ? viewName : "dashboard";
   activeViewName = target;
 
   // Update Navigation Active States
-  [navDashboard, navPlanner, navSavedTrips].forEach((btn) => {
+  [navDashboard, navExplore, navPlanner, navSavedTrips].forEach((btn) => {
     if (!btn) return;
     const isTarget = btn.getAttribute("data-view") === target;
     btn.classList.toggle("active", isTarget);
@@ -150,17 +176,20 @@ function switchView(viewName, updateHash = true) {
 
   // Toggle View Panels
   if (viewDashboard) viewDashboard.hidden = target !== "dashboard";
+  if (viewExplore) viewExplore.hidden = target !== "explore";
   if (viewPlanner) viewPlanner.hidden = target !== "planner";
   if (viewSavedTrips) viewSavedTrips.hidden = target !== "saved-trips";
 
-  [viewDashboard, viewPlanner, viewSavedTrips].forEach((viewEl) => {
+  [viewDashboard, viewExplore, viewPlanner, viewSavedTrips].forEach((viewEl) => {
     if (!viewEl) return;
     viewEl.classList.toggle("active", !viewEl.hidden);
   });
 
-  // Automatically load or refresh saved trips when opening saved-trips view
+  // Automatically load or refresh data when opening views
   if (target === "saved-trips") {
     loadSavedTrips();
+  } else if (target === "explore") {
+    loadExploreAttractions();
   }
 
   // Close mobile drawer if open
@@ -1019,6 +1048,9 @@ async function handleFormSubmit(event) {
   };
   if (placeId) payload.place_id = placeId;
   if (locationContext) payload.location_context = locationContext;
+  if (selectedAttractions && selectedAttractions.length > 0) {
+    payload.selected_attractions = selectedAttractions;
+  }
 
   startLoading();
 
@@ -1092,6 +1124,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (navDashboard) {
     navDashboard.addEventListener("click", () => switchView("dashboard"));
   }
+  if (navExplore) {
+    navExplore.addEventListener("click", () => switchView("explore"));
+  }
   if (navPlanner) {
     navPlanner.addEventListener("click", () => switchView("planner"));
   }
@@ -1111,6 +1146,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 4. Hero & Dashboard Actions
   if (btnHeroPlan) {
     btnHeroPlan.addEventListener("click", () => switchView("planner"));
+  }
+  if (btnHeroExplore) {
+    btnHeroExplore.addEventListener("click", () => switchView("explore"));
   }
   if (btnHeroSaved) {
     btnHeroSaved.addEventListener("click", () => switchView("saved-trips"));
@@ -1209,22 +1247,460 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ===================================================================
-  // Worldwide Google Places & Global Atlas Autocomplete
+  // Selected Attractions State & Management
+  // ===================================================================
+  let selectedAttractions = [];
+
+  function addSelectedAttraction(item) {
+    if (!item || !item.name) return;
+    const exists = selectedAttractions.some(
+      (a) => (a.id && item.id && a.id === item.id) || a.name.toLowerCase() === item.name.toLowerCase()
+    );
+    if (!exists) {
+      selectedAttractions.push({
+        id: item.id || item.name.toLowerCase().replace(/[^a-z0-9]+/g, "_"),
+        name: item.name,
+        city: item.city || "",
+        country: item.country || "",
+        category: item.category || "General",
+        description: item.description || "",
+      });
+      renderSelectedAttractionsChips();
+      updateQueueBanner();
+      updateExploreSelectionStates();
+    }
+  }
+
+  function removeSelectedAttraction(targetIdOrName) {
+    selectedAttractions = selectedAttractions.filter(
+      (a) => a.id !== targetIdOrName && a.name !== targetIdOrName
+    );
+    renderSelectedAttractionsChips();
+    updateQueueBanner();
+    updateExploreSelectionStates();
+  }
+
+  function clearSelectedAttractions() {
+    selectedAttractions = [];
+    renderSelectedAttractionsChips();
+    updateQueueBanner();
+    updateExploreSelectionStates();
+  }
+
+  function renderSelectedAttractionsChips() {
+    if (!selectedAttractionsContainer) return;
+    selectedAttractionsContainer.innerHTML = "";
+
+    if (selectedAttractions.length === 0) {
+      if (noAttractionsHint) {
+        noAttractionsHint.classList.remove("hidden");
+        selectedAttractionsContainer.appendChild(noAttractionsHint);
+      }
+      return;
+    }
+
+    selectedAttractions.forEach((att) => {
+      const chip = document.createElement("div");
+      chip.className = "attraction-chip";
+
+      const nameSpan = document.createElement("span");
+      nameSpan.className = "chip-name";
+      nameSpan.textContent = att.name;
+      chip.appendChild(nameSpan);
+
+      if (att.category) {
+        const catSpan = document.createElement("span");
+        catSpan.className = "chip-category";
+        catSpan.textContent = att.category;
+        chip.appendChild(catSpan);
+      }
+
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "chip-remove-btn";
+      removeBtn.setAttribute("aria-label", `Remove ${att.name}`);
+      removeBtn.innerHTML = "&times;";
+      removeBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        removeSelectedAttraction(att.id || att.name);
+      });
+      chip.appendChild(removeBtn);
+
+      selectedAttractionsContainer.appendChild(chip);
+    });
+  }
+
+  function updateQueueBanner() {
+    const count = selectedAttractions.length;
+    const exploreSelectedCount = document.getElementById("explore-selected-count");
+    if (exploreSelectedCount) exploreSelectedCount.textContent = count;
+    if (queueCount) queueCount.textContent = count;
+
+    if (!exploreSelectedBanner) return;
+    if (count === 0) {
+      exploreSelectedBanner.classList.add("hidden");
+    } else {
+      exploreSelectedBanner.classList.remove("hidden");
+      if (queueItemsPreview) {
+        queueItemsPreview.textContent = selectedAttractions.map((a) => a.name).join(", ");
+      }
+    }
+  }
+
+  function updateExploreSelectionStates() {
+    if (!exploreGrid) return;
+    const cards = exploreGrid.querySelectorAll(".attraction-card");
+    const selectedIds = new Set(selectedAttractions.map((a) => a.id));
+    const selectedNames = new Set(selectedAttractions.map((a) => a.name.toLowerCase()));
+
+    cards.forEach((card) => {
+      const cId = card.getAttribute("data-id");
+      const cName = (card.getAttribute("data-name") || "").toLowerCase();
+      const isSelected = selectedIds.has(cId) || selectedNames.has(cName);
+      card.classList.toggle("is-selected", isSelected);
+
+      const addBtn = card.querySelector(".btn-add-attraction");
+      if (addBtn) {
+        if (isSelected) {
+          addBtn.classList.add("btn-added");
+          addBtn.textContent = "✓ In Trip Plan";
+        } else {
+          addBtn.classList.remove("btn-added");
+          addBtn.textContent = "+ Add to Trip";
+        }
+      }
+    });
+  }
+
+  // ===================================================================
+  // Explore Destinations & Worldwide Discovery Engine
+  // ===================================================================
+  let exploreDebounceTimer = null;
+  let exploreFacetsLoaded = false;
+  let exploreState = {
+    query: "",
+    continent: "",
+    country: "",
+    category: "",
+    budget: "",
+    traveler_type: "",
+  };
+
+  async function loadExploreFacets() {
+    if (exploreFacetsLoaded) return;
+    try {
+      const res = await apiRequest("/api/destinations/facets");
+      if (res && res.ok && res.facets) {
+        exploreFacetsLoaded = true;
+        if (sidebarAttractionsCount && res.facets.total_attractions) {
+          sidebarAttractionsCount.textContent = res.facets.total_attractions;
+        }
+        if (exploreFilterCountry && res.facets.countries) {
+          exploreFilterCountry.innerHTML = '<option value="">All Countries</option>';
+          res.facets.countries.forEach((c) => {
+            const opt = document.createElement("option");
+            opt.value = c.name;
+            opt.textContent = `${c.name} (${c.count})`;
+            exploreFilterCountry.appendChild(opt);
+          });
+        }
+      }
+    } catch (err) {
+      console.warn("Could not load destination facets:", err);
+    }
+  }
+
+  async function loadExploreAttractions() {
+    await loadExploreFacets();
+    await fetchAndRenderAttractions();
+  }
+
+  async function fetchAndRenderAttractions() {
+    if (!exploreGrid) return;
+    exploreGrid.innerHTML = '<div class="explore-loading"><div class="spinner-coral"></div><p>Searching worldwide database...</p></div>';
+    if (exploreEmptyState) exploreEmptyState.classList.add("hidden");
+
+    const params = new URLSearchParams();
+    if (exploreState.query) params.set("query", exploreState.query);
+    if (exploreState.continent) params.set("continent", exploreState.continent);
+    if (exploreState.country) params.set("country", exploreState.country);
+    if (exploreState.category) params.set("category", exploreState.category);
+    if (exploreState.budget) params.set("budget", exploreState.budget);
+    if (exploreState.traveler_type) params.set("traveler_type", exploreState.traveler_type);
+    params.set("limit", "100");
+
+    try {
+      const res = await apiRequest(`/api/destinations/search?${params.toString()}`);
+      if (res && res.ok) {
+        renderAttractionsGrid(res.attractions || []);
+        if (exploreResultsCount) {
+          exploreResultsCount.textContent = res.total || 0;
+        }
+      } else {
+        renderAttractionsGrid([]);
+      }
+    } catch (err) {
+      console.warn("Failed to fetch attractions:", err);
+      renderAttractionsGrid([]);
+    }
+  }
+
+  function renderAttractionsGrid(attractions) {
+    if (!exploreGrid) return;
+    exploreGrid.innerHTML = "";
+
+    if (!attractions || attractions.length === 0) {
+      exploreGrid.classList.add("hidden");
+      if (exploreEmptyState) exploreEmptyState.classList.remove("hidden");
+      return;
+    }
+
+    exploreGrid.classList.remove("hidden");
+    if (exploreEmptyState) exploreEmptyState.classList.add("hidden");
+
+    const selectedIds = new Set(selectedAttractions.map((a) => a.id));
+    const selectedNames = new Set(selectedAttractions.map((a) => a.name.toLowerCase()));
+
+    attractions.forEach((item) => {
+      const isSelected = selectedIds.has(item.id) || selectedNames.has(item.name.toLowerCase());
+
+      const card = document.createElement("div");
+      card.className = "attraction-card";
+      if (isSelected) card.classList.add("is-selected");
+      card.setAttribute("data-id", item.id || "");
+      card.setAttribute("data-name", item.name || "");
+
+      // Card Header / Banner
+      const cardHeader = document.createElement("div");
+      cardHeader.className = "attraction-card-header";
+
+      const badgesRow = document.createElement("div");
+      badgesRow.className = "attraction-badges-row";
+
+      const catBadge = document.createElement("span");
+      catBadge.className = `badge-pill cat-${(item.category || "general").toLowerCase()}`;
+      catBadge.textContent = item.category || "Sight";
+      badgesRow.appendChild(catBadge);
+
+      const contBadge = document.createElement("span");
+      contBadge.className = "badge-pill bg-continent";
+      contBadge.textContent = `${item.continent} • ${item.country}`;
+      badgesRow.appendChild(contBadge);
+
+      cardHeader.appendChild(badgesRow);
+      card.appendChild(cardHeader);
+
+      // Card Body
+      const cardBody = document.createElement("div");
+      cardBody.className = "attraction-card-body";
+
+      const title = document.createElement("h3");
+      title.className = "attraction-title";
+      title.textContent = item.name;
+      cardBody.appendChild(title);
+
+      const locationEl = document.createElement("div");
+      locationEl.className = "attraction-location";
+      locationEl.innerHTML = `📍 ${item.city ? item.city + ', ' : ''}${item.country}`;
+      cardBody.appendChild(locationEl);
+
+      const desc = document.createElement("p");
+      desc.className = "attraction-description";
+      desc.textContent = item.description || "";
+      cardBody.appendChild(desc);
+
+      // Meta list
+      const metaList = document.createElement("div");
+      metaList.className = "attraction-meta-grid";
+
+      if (item.duration_hours) {
+        const metaItem = document.createElement("span");
+        metaItem.className = "meta-pill";
+        metaItem.innerHTML = `⏱ ${item.duration_hours}`;
+        metaList.appendChild(metaItem);
+      }
+      if (item.best_season) {
+        const metaItem = document.createElement("span");
+        metaItem.className = "meta-pill";
+        metaItem.innerHTML = `☀️ ${item.best_season}`;
+        metaList.appendChild(metaItem);
+      }
+      if (item.budget_tier) {
+        const metaItem = document.createElement("span");
+        metaItem.className = "meta-pill";
+        metaItem.innerHTML = `💰 ${item.budget_tier}${item.estimated_cost ? ' (' + item.estimated_cost + ')' : ''}`;
+        metaList.appendChild(metaItem);
+      }
+      cardBody.appendChild(metaList);
+
+      // Tags
+      if (item.tags && item.tags.length > 0) {
+        const tagsRow = document.createElement("div");
+        tagsRow.className = "attraction-tags-row";
+        item.tags.slice(0, 5).forEach((t) => {
+          const tagSpan = document.createElement("span");
+          tagSpan.className = "tag-mini";
+          tagSpan.textContent = `#${t}`;
+          tagsRow.appendChild(tagSpan);
+        });
+        cardBody.appendChild(tagsRow);
+      }
+
+      card.appendChild(cardBody);
+
+      // Card Actions
+      const cardActions = document.createElement("div");
+      cardActions.className = "attraction-card-actions";
+
+      const addBtn = document.createElement("button");
+      addBtn.type = "button";
+      addBtn.className = "btn btn-sm btn-outline-coral btn-add-attraction";
+      if (isSelected) {
+        addBtn.classList.add("btn-added");
+        addBtn.textContent = "✓ In Trip Plan";
+      } else {
+        addBtn.textContent = "+ Add to Trip";
+      }
+      addBtn.addEventListener("click", () => {
+        const currentlySelected = selectedAttractions.some(
+          (a) => (a.id && a.id === item.id) || a.name.toLowerCase() === item.name.toLowerCase()
+        );
+        if (currentlySelected) {
+          removeSelectedAttraction(item.id || item.name);
+          showToast(`Removed "${item.name}" from selected attractions.`, "info");
+        } else {
+          addSelectedAttraction(item);
+          showToast(`Added "${item.name}" to your trip highlights!`, "success");
+        }
+      });
+      cardActions.appendChild(addBtn);
+
+      const planHereBtn = document.createElement("button");
+      planHereBtn.type = "button";
+      planHereBtn.className = "btn btn-sm btn-coral btn-plan-here";
+      planHereBtn.textContent = "Plan Trip Here";
+      planHereBtn.addEventListener("click", () => {
+        if (destinationInput) {
+          destinationInput.value = `${item.city || item.name}, ${item.country}`;
+        }
+        addSelectedAttraction(item);
+        switchView("planner");
+        showToast(`Destination set to ${item.city || item.name}, ${item.country}!`, "success");
+      });
+      cardActions.appendChild(planHereBtn);
+
+      card.appendChild(cardActions);
+      exploreGrid.appendChild(card);
+    });
+  }
+
+  // Explore Event Listeners
+  if (exploreSearchInput) {
+    exploreSearchInput.addEventListener("input", (e) => {
+      exploreState.query = e.target.value.trim();
+      if (exploreClearSearch) {
+        exploreClearSearch.classList.toggle("hidden", !exploreState.query);
+      }
+      clearTimeout(exploreDebounceTimer);
+      exploreDebounceTimer = setTimeout(() => {
+        fetchAndRenderAttractions();
+      }, 250);
+    });
+  }
+
+  if (exploreClearSearch) {
+    exploreClearSearch.addEventListener("click", () => {
+      if (exploreSearchInput) exploreSearchInput.value = "";
+      exploreState.query = "";
+      exploreClearSearch.classList.add("hidden");
+      fetchAndRenderAttractions();
+    });
+  }
+
+  // Continent Filter Pills
+  const continentPills = document.querySelectorAll(".continent-pill");
+  continentPills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      continentPills.forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+      exploreState.continent = pill.getAttribute("data-continent") || "";
+      fetchAndRenderAttractions();
+    });
+  });
+
+  if (exploreFilterCountry) {
+    exploreFilterCountry.addEventListener("change", (e) => {
+      exploreState.country = e.target.value;
+      fetchAndRenderAttractions();
+    });
+  }
+  if (exploreFilterCategory) {
+    exploreFilterCategory.addEventListener("change", (e) => {
+      exploreState.category = e.target.value;
+      fetchAndRenderAttractions();
+    });
+  }
+  if (exploreFilterBudget) {
+    exploreFilterBudget.addEventListener("change", (e) => {
+      exploreState.budget = e.target.value;
+      fetchAndRenderAttractions();
+    });
+  }
+  if (exploreFilterTraveler) {
+    exploreFilterTraveler.addEventListener("change", (e) => {
+      exploreState.traveler_type = e.target.value;
+      fetchAndRenderAttractions();
+    });
+  }
+
+  function resetExploreFilters() {
+    exploreState = {
+      query: "",
+      continent: "",
+      country: "",
+      category: "",
+      budget: "",
+      traveler_type: "",
+    };
+    if (exploreSearchInput) exploreSearchInput.value = "";
+    if (exploreClearSearch) exploreClearSearch.classList.add("hidden");
+    if (exploreFilterCountry) exploreFilterCountry.value = "";
+    if (exploreFilterCategory) exploreFilterCategory.value = "";
+    if (exploreFilterBudget) exploreFilterBudget.value = "";
+    if (exploreFilterTraveler) exploreFilterTraveler.value = "";
+    continentPills.forEach((p) => {
+      p.classList.toggle("active", !p.getAttribute("data-continent"));
+    });
+    fetchAndRenderAttractions();
+  }
+
+  if (btnExploreResetFilters) {
+    btnExploreResetFilters.addEventListener("click", resetExploreFilters);
+  }
+  if (btnExploreResetEmpty) {
+    btnExploreResetEmpty.addEventListener("click", resetExploreFilters);
+  }
+  if (btnExploreToPlanner) {
+    btnExploreToPlanner.addEventListener("click", () => switchView("planner"));
+  }
+  if (btnApplySelectedToPlan) {
+    btnApplySelectedToPlan.addEventListener("click", () => switchView("planner"));
+  }
+  if (btnClearSelectedAttractions) {
+    btnClearSelectedAttractions.addEventListener("click", () => {
+      clearSelectedAttractions();
+      showToast("Cleared selected attractions.", "info");
+    });
+  }
+  if (btnBrowseCatalogLink) {
+    btnBrowseCatalogLink.addEventListener("click", () => switchView("explore"));
+  }
+
+  // ===================================================================
+  // Fast Local Destination & Attraction Autocomplete
   // ===================================================================
   let autocompleteDebounceTimer = null;
   let currentAutocompleteIndex = -1;
-  let currentSessionToken = null;
-
-  function getOrCreateSessionToken() {
-    if (!currentSessionToken) {
-      currentSessionToken = "sess_" + Math.random().toString(36).substring(2, 12);
-    }
-    return currentSessionToken;
-  }
-
-  function resetSessionToken() {
-    currentSessionToken = null;
-  }
 
   function closeAutocompleteDropdown() {
     const dropdown = document.getElementById("destination-autocomplete-dropdown");
@@ -1238,14 +1714,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function selectAutocompleteItem(item) {
     if (!item || !destinationInput) return;
-    destinationInput.value = item.full_text || item.name;
+
+    if (item.type === "attraction") {
+      destinationInput.value = item.city && item.country ? `${item.city}, ${item.country}` : item.name;
+      addSelectedAttraction({
+        id: item.id,
+        name: item.name,
+        city: item.city,
+        country: item.country,
+        category: item.category,
+      });
+      showToast(`Added "${item.name}" to your trip highlights!`, "success");
+    } else {
+      destinationInput.value = item.display || item.name;
+    }
+
     const placeIdInput = document.getElementById("selected-place-id");
     const locCtxInput = document.getElementById("selected-location-context");
-    if (placeIdInput) placeIdInput.value = item.place_id || "";
-    if (locCtxInput) locCtxInput.value = item.secondary_text || "";
+    if (placeIdInput) placeIdInput.value = item.id || "";
+    if (locCtxInput) locCtxInput.value = item.country || "";
 
     closeAutocompleteDropdown();
-    resetSessionToken();
 
     if (destError) {
       destError.textContent = "";
@@ -1276,13 +1765,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const titleEl = document.createElement("span");
       titleEl.className = "autocomplete-item-title";
-      titleEl.textContent = item.name || item.full_text;
+      titleEl.textContent = item.name || item.display;
       mainWrap.appendChild(titleEl);
 
-      if (item.secondary_text) {
+      const secText = item.city && item.country ? `${item.city}, ${item.country}` : (item.display || "");
+      if (secText && secText !== item.name) {
         const secEl = document.createElement("span");
         secEl.className = "autocomplete-item-secondary";
-        secEl.textContent = item.secondary_text;
+        secEl.textContent = secText;
         mainWrap.appendChild(secEl);
       }
       itemEl.appendChild(mainWrap);
@@ -1291,9 +1781,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const badge = document.createElement("span");
         badge.className = "autocomplete-badge";
         const catLower = item.category.toLowerCase();
-        if (catLower.includes("park") || catLower.includes("nature")) badge.classList.add("badge-park");
-        else if (catLower.includes("island") || catLower.includes("beach")) badge.classList.add("badge-island");
-        else if (catLower.includes("landmark")) badge.classList.add("badge-landmark");
+        if (catLower.includes("nature")) badge.classList.add("badge-park");
+        else if (catLower.includes("beach")) badge.classList.add("badge-island");
+        else if (catLower.includes("historical")) badge.classList.add("badge-landmark");
         badge.textContent = item.category;
         itemEl.appendChild(badge);
       }
@@ -1305,14 +1795,6 @@ document.addEventListener("DOMContentLoaded", () => {
       dropdown.appendChild(itemEl);
     });
 
-    // Legal attribution for Google Places API
-    if (data.attribution === "Google Maps" || data.provider === "google_places") {
-      const attrRow = document.createElement("div");
-      attrRow.className = "autocomplete-attribution";
-      attrRow.textContent = "Powered by Google Maps";
-      dropdown.appendChild(attrRow);
-    }
-
     dropdown.classList.remove("hidden");
     if (destinationInput) destinationInput.setAttribute("aria-expanded", "true");
   }
@@ -1322,12 +1804,11 @@ document.addEventListener("DOMContentLoaded", () => {
       closeAutocompleteDropdown();
       return;
     }
-    const token = getOrCreateSessionToken();
     try {
       const resp = await apiRequest(
-        `/api/places/autocomplete?query=${encodeURIComponent(query.trim())}&session_token=${encodeURIComponent(token)}`
+        `/api/destinations/autocomplete?query=${encodeURIComponent(query.trim())}`
       );
-      if (resp && resp.ok) {
+      if (resp && resp.ok && resp.suggestions) {
         renderAutocompleteSuggestions(resp);
       } else {
         closeAutocompleteDropdown();
@@ -1444,6 +1925,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const clean = (rawHash || "").replace("#", "").trim().toLowerCase();
     if (clean === "planner" || clean === "trip-planner") return "planner";
     if (clean === "saved-trips" || clean === "saved-trips-section") return "saved-trips";
+    if (clean === "explore" || clean === "destinations") return "explore";
     return "dashboard";
   }
 
@@ -1457,6 +1939,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Initial load of saved trips in background to populate metrics & sidebar count
+  // Initial load of saved trips & destination catalog in background
   loadSavedTrips();
+  loadExploreFacets();
 });

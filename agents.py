@@ -189,6 +189,7 @@ def run_rule_based_agents(
     fallback_note: Optional[str] = None,
     place_id: Optional[str] = None,
     location_context: Optional[str] = None,
+    selected_attractions: Optional[List[Any]] = None,
 ) -> Dict[str, Any]:
     """Execute the multi-agent travel plan using pure-Python rule-based agents and local data.
 
@@ -229,6 +230,7 @@ def run_rule_based_agents(
         interests=clean_interests,
         budget_tier=budget_tier,
         companions=companion_type,
+        selected_attractions=selected_attractions,
     )
 
     # Step 4: Budget Estimation Agent
@@ -278,6 +280,7 @@ def run_rule_based_agents(
         "fallback_used": bool(fallback_note),
         "place_id": place_id or dest_data.get("place_id"),
         "location_context": location_context or dest_data.get("country"),
+        "selected_attractions": [a if isinstance(a, str) else a.get("name", "") for a in (selected_attractions or [])],
     }
 
 
@@ -800,6 +803,7 @@ def run_agents(
     climate: str = "Any",
     place_id: Optional[str] = None,
     location_context: Optional[str] = None,
+    selected_attractions: Optional[List[Any]] = None,
 ) -> Dict[str, Any]:
     """Execute the multi-agent travel planning pipeline with automatic fallback.
 
@@ -810,14 +814,31 @@ def run_agents(
     clean_interests = interests or []
     provider = get_active_provider()
 
-    # If destination was not specified or requested a recommendation, choose best match
+    # If destination was not specified or requested a recommendation, check selected attractions first
     if not clean_dest or clean_dest.lower() in ("recommend", "surprise me", "auto", "any", "suggest"):
-        recs = recommend_destinations(budget, duration_days, clean_interests, companions, climate, top_k=1)
-        if recs:
-            clean_dest = recs[0]["destination"]
-            logger.info("Destination recommendation selected: '%s'", clean_dest)
-        else:
-            clean_dest = "Kyoto, Japan"
+        if selected_attractions and len(selected_attractions) > 0:
+            first_att = selected_attractions[0]
+            if isinstance(first_att, dict):
+                city = first_att.get("city", "")
+                country = first_att.get("country", "")
+                if city and country:
+                    clean_dest = f"{city}, {country}"
+                elif city:
+                    clean_dest = city
+                elif country:
+                    clean_dest = country
+                else:
+                    clean_dest = first_att.get("name", "Worldwide")
+            elif isinstance(first_att, str) and first_att.strip():
+                clean_dest = first_att.strip()
+
+        if not clean_dest or clean_dest.lower() in ("recommend", "surprise me", "auto", "any", "suggest"):
+            recs = recommend_destinations(budget, duration_days, clean_interests, companions, climate, top_k=1)
+            if recs:
+                clean_dest = recs[0]["destination"]
+                logger.info("Destination recommendation selected: '%s'", clean_dest)
+            else:
+                clean_dest = "Kyoto, Japan"
 
     # Direct rule-based / demo execution
     if provider in ("rule_based", "mock"):
@@ -831,6 +852,7 @@ def run_agents(
             climate=climate,
             place_id=place_id,
             location_context=location_context,
+            selected_attractions=selected_attractions,
         )
         plan["llm_provider"] = provider
         return plan
@@ -885,6 +907,7 @@ def run_agents(
             "itinerary": agent4_out["itinerary"],
             "estimated_budget": estimated_budget,
             "travel_tips": agent4_out.get("travel_tips", []),
+            "selected_attractions": [a if isinstance(a, str) else a.get("name", "") for a in (selected_attractions or [])],
             "fallback_used": False,
         }
 
@@ -905,5 +928,6 @@ def run_agents(
             climate=climate,
             place_id=place_id,
             location_context=location_context,
+            selected_attractions=selected_attractions,
             fallback_note=f"Plan generated via rule-based engine (LLM {provider} unavailable).",
         )

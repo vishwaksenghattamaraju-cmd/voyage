@@ -1,0 +1,1499 @@
+{
+  "catalog_metadata": {
+    "name": "Voyage AI Worldwide Tourist Destination Database",
+    "version": "1.0.0",
+    "description": "Comprehensive, structured catalog of iconic tourist attractions worldwide across Asia, Europe, North America, South America, Africa, and Oceania. All costs, hours, and durations are illustrative estimates for travel planning.",
+    "total_records": 46
+  },
+  "attractions": [
+    {
+      "id": "eiffel_tower_paris",
+      "name": "Eiffel Tower",
+      "country": "France",
+      "city": "Paris",
+      "region": "Île-de-France",
+      "continent": "Europe",
+      "category": "Historical",
+      "description": "Iconic wrought-iron lattice tower on the Champ de Mars, offering breathtaking 360-degree panoramic views over the Parisian skyline.",
+      "duration_hours": "2 to 3 hours",
+      "best_season": "April to October",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. €18 - €29 (summit elevator)",
+      "coordinates": {
+        "lat": 48.8584,
+        "lng": 2.2945
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "landmark",
+        "architecture",
+        "views",
+        "romantic",
+        "iconic",
+        "photography"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "louvre_museum_paris",
+      "name": "Louvre Museum",
+      "country": "France",
+      "city": "Paris",
+      "region": "Île-de-France",
+      "continent": "Europe",
+      "category": "Cultural",
+      "description": "The world's largest art museum and historic royal palace, home to the Mona Lisa, Venus de Milo, and masterpieces spanning ancient civilizations.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "Year-round",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. €22 entry",
+      "coordinates": {
+        "lat": 48.8606,
+        "lng": 2.3376
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "museum",
+        "art",
+        "history",
+        "palace",
+        "mona lisa"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "colosseum_rome",
+      "name": "Colosseum & Roman Forum",
+      "country": "Italy",
+      "city": "Rome",
+      "region": "Lazio",
+      "continent": "Europe",
+      "category": "Historical",
+      "description": "Monumental Flavian amphitheater built in 70-80 AD, representing the apex of imperial Roman architecture and ancient gladiator history.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "March to May, September to November",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. €18 combined ticket",
+      "coordinates": {
+        "lat": 41.8902,
+        "lng": 12.4922
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "ancient",
+        "history",
+        "ruins",
+        "monument",
+        "roman empire"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "vatican_museums_rome",
+      "name": "Vatican Museums & Sistine Chapel",
+      "country": "Italy",
+      "city": "Rome",
+      "region": "Vatican City / Rome",
+      "continent": "Europe",
+      "category": "Cultural",
+      "description": "World-renowned ecclesiastical art galleries culminating in Michelangelo's frescoed ceiling and The Last Judgment in the Sistine Chapel.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "October to April",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. €20 entry",
+      "coordinates": {
+        "lat": 41.9065,
+        "lng": 12.4536
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "art",
+        "renaissance",
+        "michelangelo",
+        "religious",
+        "chapel"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1543429776-2782fc8e1acd?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "sagrada_familia_barcelona",
+      "name": "Sagrada Família",
+      "country": "Spain",
+      "city": "Barcelona",
+      "region": "Catalonia",
+      "continent": "Europe",
+      "category": "Religious",
+      "description": "Antoni Gaudí's modernist masterwork basilica, blending curvilinear Gothic and Art Nouveau forms with stained glass light.",
+      "duration_hours": "2 to 3 hours",
+      "best_season": "May to June, September to October",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. €26 basic entry",
+      "coordinates": {
+        "lat": 41.4036,
+        "lng": 2.1744
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "gaudi",
+        "architecture",
+        "cathedral",
+        "modernism",
+        "barcelona"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "tower_of_london_uk",
+      "name": "Tower of London",
+      "country": "United Kingdom",
+      "city": "London",
+      "region": "England",
+      "continent": "Europe",
+      "category": "Historical",
+      "description": "Historic castle on the north bank of the River Thames, housing the sparkling Crown Jewels, White Tower, and medieval royal armor.",
+      "duration_hours": "3 hours",
+      "best_season": "May to September",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. £34 admission",
+      "coordinates": {
+        "lat": 51.5081,
+        "lng": -0.0759
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "crown jewels",
+        "castle",
+        "medieval",
+        "thames",
+        "royalty"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "matterhorn_zermatt",
+      "name": "Matterhorn & Gornergrat",
+      "country": "Switzerland",
+      "city": "Zermatt",
+      "region": "Valais",
+      "continent": "Europe",
+      "category": "Nature",
+      "description": "The jewel of the Swiss Alps, a pyramidal peak rising 4,478m above alpine meadows, accessible via cogwheel mountain railway.",
+      "duration_hours": "Full Day",
+      "best_season": "July to September (hiking), December to April (skiing)",
+      "budget_tier": "Luxury",
+      "estimated_cost": "Approx. CHF 110 (Gornergrat railway return)",
+      "coordinates": {
+        "lat": 45.9765,
+        "lng": 7.7491
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Adventure",
+        "Family"
+      ],
+      "tags": [
+        "alps",
+        "mountain",
+        "hiking",
+        "skiing",
+        "panoramic views",
+        "switzerland"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "neuschwanstein_castle_germany",
+      "name": "Neuschwanstein Castle",
+      "country": "Germany",
+      "city": "Füssen",
+      "region": "Bavaria",
+      "continent": "Europe",
+      "category": "Historical",
+      "description": "19th-century fairy-tale Romanesque Revival palace perched on a rugged alpine cliff, commissioned by King Ludwig II.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "May to October",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. €17.50 ticket",
+      "coordinates": {
+        "lat": 47.5576,
+        "lng": 10.7498
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "castle",
+        "fairytale",
+        "bavaria",
+        "palace",
+        "alps"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "acropolis_athens",
+      "name": "Acropolis & Parthenon",
+      "country": "Greece",
+      "city": "Athens",
+      "region": "Attica",
+      "continent": "Europe",
+      "category": "Historical",
+      "description": "Ancient citadel rocky outcrop crowned by the 5th-century BC classical temple of Athena Parthenos, embodying Hellenic civilization.",
+      "duration_hours": "2 to 3 hours",
+      "best_season": "April to June, September to October",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. €20 entry",
+      "coordinates": {
+        "lat": 37.9715,
+        "lng": 23.7267
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "ancient greece",
+        "parthenon",
+        "ruins",
+        "monument",
+        "unesco"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1555993539-1732b0258235?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "oia_caldera_santorini",
+      "name": "Oia Village & Caldera",
+      "country": "Greece",
+      "city": "Santorini",
+      "region": "Cyclades",
+      "continent": "Europe",
+      "category": "Beach",
+      "description": "Cliffside whitewashed village with cobalt-blue church domes, overlooking a submerged volcanic caldera with celebrated sunsets.",
+      "duration_hours": "Half Day to Full Day",
+      "best_season": "May to October",
+      "budget_tier": "Luxury",
+      "estimated_cost": "Free walking exploration",
+      "coordinates": {
+        "lat": 36.4618,
+        "lng": 25.3753
+      },
+      "traveler_types": [
+        "Couple",
+        "Solo",
+        "Friends"
+      ],
+      "tags": [
+        "island",
+        "sunset",
+        "beaches",
+        "cyclades",
+        "scenic views"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "taj_mahal_agra",
+      "name": "Taj Mahal",
+      "country": "India",
+      "city": "Agra",
+      "region": "Uttar Pradesh",
+      "continent": "Asia",
+      "category": "Historical",
+      "description": "Ivory-white marble mausoleum on the Yamuna riverbank, commissioned in 1631 by Mughal Emperor Shah Jahan in memory of Mumtaz Mahal.",
+      "duration_hours": "2 to 3 hours",
+      "best_season": "October to March",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. ₹1100 (foreign visitor), ₹50 (domestic)",
+      "coordinates": {
+        "lat": 27.1751,
+        "lng": 78.0421
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "unesco",
+        "seven wonders",
+        "mughal",
+        "marble",
+        "architecture",
+        "monument"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "charminar_hyderabad",
+      "name": "Charminar & Laad Bazaar",
+      "country": "India",
+      "city": "Hyderabad",
+      "region": "Telangana",
+      "continent": "Asia",
+      "category": "Cultural",
+      "description": "16th-century square monument with four grand minarets, surrounded by the bustling bangle bazaars and heritage pearl markets of Old Hyderabad.",
+      "duration_hours": "2 to 3 hours",
+      "best_season": "October to March",
+      "budget_tier": "Budget",
+      "estimated_cost": "Approx. ₹25 (domestic), ₹300 (foreign)",
+      "coordinates": {
+        "lat": 17.3616,
+        "lng": 78.4747
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "heritage",
+        "bazaar",
+        "hyderabad",
+        "minarets",
+        "shopping",
+        "culture"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "golconda_fort_hyderabad",
+      "name": "Golconda Fort",
+      "country": "India",
+      "city": "Hyderabad",
+      "region": "Telangana",
+      "continent": "Asia",
+      "category": "Historical",
+      "description": "Historic citadel fort famous for acoustic engineering, diamond vaults (Koh-i-Noor source), royal palaces, and evening light & sound shows.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "October to March",
+      "budget_tier": "Budget",
+      "estimated_cost": "Approx. ₹25 (domestic), ₹300 (foreign)",
+      "coordinates": {
+        "lat": 17.3833,
+        "lng": 78.4011
+      },
+      "traveler_types": [
+        "Solo",
+        "Family",
+        "Friends",
+        "History Buffs"
+      ],
+      "tags": [
+        "fort",
+        "acoustics",
+        "diamonds",
+        "palace",
+        "hyderabad",
+        "ruins"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1622353163351-5ef0f8485292?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "qutub_minar_delhi",
+      "name": "Qutub Minar",
+      "country": "India",
+      "city": "New Delhi",
+      "region": "Delhi",
+      "continent": "Asia",
+      "category": "Historical",
+      "description": "Soaring 73-meter fluted red sandstone minaret erected in 1192, featuring carved Quranic verses and the ancient 4th-century rust-resistant Iron Pillar.",
+      "duration_hours": "2 hours",
+      "best_season": "October to March",
+      "budget_tier": "Budget",
+      "estimated_cost": "Approx. ₹40 (domestic), ₹600 (foreign)",
+      "coordinates": {
+        "lat": 28.5244,
+        "lng": 77.1855
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "unesco",
+        "minaret",
+        "delhi",
+        "history",
+        "ancient"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "amber_palace_jaipur",
+      "name": "Amber Fort & Palace",
+      "country": "India",
+      "city": "Jaipur",
+      "region": "Rajasthan",
+      "continent": "Asia",
+      "category": "Historical",
+      "description": "Hilltop fort-palace blending Rajput and Mughal design, famous for the mirror-mosaic Sheesh Mahal and overlooking Maota Lake.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "October to March",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. ₹100 (domestic), ₹550 (foreign)",
+      "coordinates": {
+        "lat": 26.9855,
+        "lng": 75.8513
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "palace",
+        "fort",
+        "rajasthan",
+        "mirror palace",
+        "royalty"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "kerala_backwaters_alleppey",
+      "name": "Kerala Backwaters & Houseboats",
+      "country": "India",
+      "city": "Alleppey (Alappuzha)",
+      "region": "Kerala",
+      "continent": "Asia",
+      "category": "Nature",
+      "description": "Tranquil network of palm-fringed lagoons, canals, and lakes cruised on traditional thatched-roof kettuvallam houseboats.",
+      "duration_hours": "Half Day to Overnight",
+      "best_season": "September to March",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. ₹7,000 - ₹14,000 per night houseboat",
+      "coordinates": {
+        "lat": 9.4981,
+        "lng": 76.3388
+      },
+      "traveler_types": [
+        "Couple",
+        "Family",
+        "Friends",
+        "Solo"
+      ],
+      "tags": [
+        "backwaters",
+        "houseboat",
+        "nature",
+        "peaceful",
+        "ayurveda"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "tokyo_tower_japan",
+      "name": "Tokyo Tower",
+      "country": "Japan",
+      "city": "Tokyo",
+      "region": "Kanto",
+      "continent": "Asia",
+      "category": "Entertainment",
+      "description": "Communications and observation tower in Minato, inspired by the Eiffel Tower and illuminated in vivid orange and white.",
+      "duration_hours": "1.5 to 2 hours",
+      "best_season": "Year-round",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. ¥1,200 main deck",
+      "coordinates": {
+        "lat": 35.6586,
+        "lng": 139.7454
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "views",
+        "skyline",
+        "modern",
+        "tokyo",
+        "night view"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "mount_fuji_japan",
+      "name": "Mount Fuji & Fuji Five Lakes",
+      "country": "Japan",
+      "city": "Fujikawaguchiko",
+      "region": "Yamanashi / Shizuoka",
+      "continent": "Asia",
+      "category": "Nature",
+      "description": "Japan's sacred active stratovolcano rising 3,776 meters, celebrated in traditional woodblock prints and surrounded by mirror lakes.",
+      "duration_hours": "Full Day",
+      "best_season": "July to September (climbing), November to May (snow cap views)",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Free viewing / ¥1,000 climbing conservation fee",
+      "coordinates": {
+        "lat": 35.3606,
+        "lng": 138.7274
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Adventure",
+        "Family"
+      ],
+      "tags": [
+        "volcano",
+        "sacred",
+        "mountain",
+        "hiking",
+        "lake",
+        "iconic"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "fushimi_inari_kyoto",
+      "name": "Fushimi Inari-taisha",
+      "country": "Japan",
+      "city": "Kyoto",
+      "region": "Kansai",
+      "continent": "Asia",
+      "category": "Religious",
+      "description": "Shinto shrine dedicated to Inari, featuring a mesmerizing mountain pathway covered by over 10,000 vermilion torii gates.",
+      "duration_hours": "2 to 3 hours",
+      "best_season": "March to May, October to November",
+      "budget_tier": "Budget",
+      "estimated_cost": "Free admission",
+      "coordinates": {
+        "lat": 34.9671,
+        "lng": 135.7727
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "shrine",
+        "torii gates",
+        "kyoto",
+        "shinto",
+        "hiking"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "great_wall_china",
+      "name": "Great Wall of China (Mutianyu)",
+      "country": "China",
+      "city": "Beijing",
+      "region": "Beijing Municipality",
+      "continent": "Asia",
+      "category": "Historical",
+      "description": "Ancient defensive fortifications snaking over rugged mountain ridges, featuring restored watchtowers and cable car access.",
+      "duration_hours": "Full Day",
+      "best_season": "April to May, September to November",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. ¥45 entry + ¥140 cable car",
+      "coordinates": {
+        "lat": 40.4319,
+        "lng": 116.5704
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "ancient",
+        "seven wonders",
+        "unesco",
+        "hiking",
+        "architecture"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "gardens_by_the_bay_singapore",
+      "name": "Gardens by the Bay",
+      "country": "Singapore",
+      "city": "Singapore",
+      "region": "Central Region",
+      "continent": "Asia",
+      "category": "Nature",
+      "description": "Futuristic 101-hectare nature park showcasing towering vertical Supertrees, the Flower Dome, and Cloud Forest misty waterfall conservatory.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "Year-round",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. SGD 32 combined conservatory ticket (outdoor park free)",
+      "coordinates": {
+        "lat": 1.2816,
+        "lng": 103.8636
+      },
+      "traveler_types": [
+        "Family",
+        "Couple",
+        "Solo",
+        "Friends"
+      ],
+      "tags": [
+        "botanical",
+        "futuristic",
+        "supertrees",
+        "architecture",
+        "garden"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "tanah_lot_bali",
+      "name": "Tanah Lot Sea Temple",
+      "country": "Indonesia",
+      "city": "Tabanan",
+      "region": "Bali",
+      "continent": "Asia",
+      "category": "Religious",
+      "description": "Ancient Hindu pilgrimage temple perched atop an offshore rock formation sculpted by crashing Indian Ocean tides and sunset vistas.",
+      "duration_hours": "2 hours",
+      "best_season": "April to October",
+      "budget_tier": "Budget",
+      "estimated_cost": "Approx. IDR 60,000 ticket",
+      "coordinates": {
+        "lat": -8.6212,
+        "lng": 115.0868
+      },
+      "traveler_types": [
+        "Couple",
+        "Solo",
+        "Family",
+        "Photography"
+      ],
+      "tags": [
+        "temple",
+        "ocean",
+        "sunset",
+        "hindu",
+        "bali",
+        "rock formation"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "grand_palace_bangkok",
+      "name": "Grand Palace & Wat Phra Kaew",
+      "country": "Thailand",
+      "city": "Bangkok",
+      "region": "Central Thailand",
+      "continent": "Asia",
+      "category": "Cultural",
+      "description": "Gilded royal residential complex and temple housing the venerated Emerald Buddha, featuring ornate spire pavilions and golden stupas.",
+      "duration_hours": "2 to 3 hours",
+      "best_season": "November to February",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. THB 500 ticket",
+      "coordinates": {
+        "lat": 13.75,
+        "lng": 100.4914
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "royal",
+        "temple",
+        "buddhist",
+        "gold",
+        "bangkok",
+        "heritage"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "gyeongbokgung_palace_seoul",
+      "name": "Gyeongbokgung Palace",
+      "country": "South Korea",
+      "city": "Seoul",
+      "region": "Jongno-gu",
+      "continent": "Asia",
+      "category": "Historical",
+      "description": "Primary royal palace of the Joseon dynasty built in 1395, famous for royal guard changing ceremonies and hanbok cultural experiences.",
+      "duration_hours": "2 to 3 hours",
+      "best_season": "April to May, September to November",
+      "budget_tier": "Budget",
+      "estimated_cost": "Approx. KRW 3,000 (free if wearing Hanbok)",
+      "coordinates": {
+        "lat": 37.5796,
+        "lng": 126.977
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "palace",
+        "joseon",
+        "hanbok",
+        "seoul",
+        "history"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "burj_khalifa_dubai",
+      "name": "Burj Khalifa & Dubai Fountain",
+      "country": "United Arab Emirates",
+      "city": "Dubai",
+      "region": "Downtown Dubai",
+      "continent": "Asia",
+      "category": "Entertainment",
+      "description": "The world's tallest skyscraper standing at 828 meters, featuring sky-high observation decks and choreographed musical lake fountain shows.",
+      "duration_hours": "2 hours",
+      "best_season": "November to March",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. AED 179 - AED 399",
+      "coordinates": {
+        "lat": 25.1972,
+        "lng": 55.2744
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "skyscraper",
+        "tallest building",
+        "fountain",
+        "luxury",
+        "skyline"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "grand_canyon_usa",
+      "name": "Grand Canyon National Park",
+      "country": "United States",
+      "city": "Tusayan",
+      "region": "Arizona",
+      "continent": "North America",
+      "category": "Nature",
+      "description": "Immense red-rock gorge carved over millions of years by the Colorado River, stretching 446 km with layered geologic strata.",
+      "duration_hours": "Full Day to Multi-Day",
+      "best_season": "March to May, September to November",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. $35 per private vehicle 7-day pass",
+      "coordinates": {
+        "lat": 36.0544,
+        "lng": -112.1401
+      },
+      "traveler_types": [
+        "Family",
+        "Couple",
+        "Solo",
+        "Adventure"
+      ],
+      "tags": [
+        "national park",
+        "canyon",
+        "hiking",
+        "geology",
+        "scenic views",
+        "arizona"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "statue_of_liberty_nyc",
+      "name": "Statue of Liberty & Ellis Island",
+      "country": "United States",
+      "city": "New York City",
+      "region": "New York",
+      "continent": "North America",
+      "category": "Historical",
+      "description": "Colossal neoclassical copper sculpture on Liberty Island gifted by France in 1886, paired with the historic immigration museum.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "April to October",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. $24.50 ferry ticket",
+      "coordinates": {
+        "lat": 40.6892,
+        "lng": -74.0445
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "liberty",
+        "monument",
+        "ferry",
+        "nyc",
+        "history"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "yellowstone_national_park",
+      "name": "Yellowstone National Park",
+      "country": "United States",
+      "city": "Jackson / West Yellowstone",
+      "region": "Wyoming / Montana",
+      "continent": "North America",
+      "category": "Nature",
+      "description": "America's first national park, featuring geothermal geysers like Old Faithful, rainbow-colored Grand Prismatic Spring, and free-roaming bison herds.",
+      "duration_hours": "Multi-Day",
+      "best_season": "June to September",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. $35 per vehicle pass",
+      "coordinates": {
+        "lat": 44.428,
+        "lng": -110.5885
+      },
+      "traveler_types": [
+        "Family",
+        "Adventure",
+        "Solo",
+        "Couples"
+      ],
+      "tags": [
+        "geysers",
+        "wildlife",
+        "national park",
+        "hot springs",
+        "bison"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1533873984035-25970ab07461?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "banff_lake_louise_canada",
+      "name": "Banff National Park & Lake Louise",
+      "country": "Canada",
+      "city": "Banff",
+      "region": "Alberta",
+      "continent": "North America",
+      "category": "Nature",
+      "description": "Glacial turquoise alpine lake surrounded by soaring Canadian Rocky Mountain peaks, pine forests, and Victoria Glacier.",
+      "duration_hours": "Full Day to Multi-Day",
+      "best_season": "June to September (hiking/canoe), December to March (winter)",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. CAD 10.50 daily park pass",
+      "coordinates": {
+        "lat": 51.4254,
+        "lng": -116.1773
+      },
+      "traveler_types": [
+        "Couple",
+        "Family",
+        "Solo",
+        "Adventure"
+      ],
+      "tags": [
+        "rockies",
+        "lake",
+        "canoe",
+        "hiking",
+        "canada",
+        "mountains"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "niagara_falls_canada",
+      "name": "Niagara Falls (Horseshoe Falls)",
+      "country": "Canada",
+      "city": "Niagara Falls",
+      "region": "Ontario",
+      "continent": "North America",
+      "category": "Nature",
+      "description": "Powerful crescent waterfall dumping millions of gallons per minute, viewed from cliffside promenades and Voyage to the Falls boat tours.",
+      "duration_hours": "Half Day",
+      "best_season": "May to October",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Free viewing promenade / CAD 33 boat tour",
+      "coordinates": {
+        "lat": 43.0828,
+        "lng": -79.0742
+      },
+      "traveler_types": [
+        "Family",
+        "Couple",
+        "Solo",
+        "Friends"
+      ],
+      "tags": [
+        "waterfall",
+        "natural wonder",
+        "boat tour",
+        "canada",
+        "scenic"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1533094602577-198d3beab8ea?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "chichen_itza_mexico",
+      "name": "Chichén Itzá Maya Pyramids",
+      "country": "Mexico",
+      "city": "Tinum",
+      "region": "Yucatán",
+      "continent": "North America",
+      "category": "Historical",
+      "description": "Monumental ancient Maya city centered around the step-pyramid temple of El Castillo (Kukulkan), celebrated for equinox serpent shadow illusions.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "November to April",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. MXN 614 ticket",
+      "coordinates": {
+        "lat": 20.6843,
+        "lng": -88.5678
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "maya",
+        "pyramid",
+        "ancient ruins",
+        "seven wonders",
+        "unesco"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "arenal_volcano_costa_rica",
+      "name": "Arenal Volcano & Rainforest",
+      "country": "Costa Rica",
+      "city": "La Fortuna",
+      "region": "Alajuela",
+      "continent": "North America",
+      "category": "Adventure",
+      "description": "Dramatic conical volcano surrounded by lush tropical rainforest, natural geothermal hot springs, canopy zip lines, and hanging suspension bridges.",
+      "duration_hours": "Full Day",
+      "best_season": "December to April",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. $15 park entrance",
+      "coordinates": {
+        "lat": 10.4631,
+        "lng": -84.7032
+      },
+      "traveler_types": [
+        "Adventure",
+        "Couple",
+        "Family",
+        "Nature"
+      ],
+      "tags": [
+        "volcano",
+        "rainforest",
+        "hot springs",
+        "zipline",
+        "wildlife"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "machu_picchu_peru",
+      "name": "Machu Picchu",
+      "country": "Peru",
+      "city": "Aguas Calientes",
+      "region": "Cusco",
+      "continent": "South America",
+      "category": "Historical",
+      "description": "15th-century Inca citadel situated on an Andean mountain ridge 2,430m above sea level, featuring polished dry-stone terrace architecture.",
+      "duration_hours": "Full Day",
+      "best_season": "May to October (dry season)",
+      "budget_tier": "Luxury",
+      "estimated_cost": "Approx. PEN 152 entrance + train transit",
+      "coordinates": {
+        "lat": -13.1631,
+        "lng": -72.545
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Adventure",
+        "Friends"
+      ],
+      "tags": [
+        "inca",
+        "andes",
+        "hiking",
+        "seven wonders",
+        "ancient ruins",
+        "unesco"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1526392060635-9d6019884377?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "christ_the_redeemer_brazil",
+      "name": "Christ the Redeemer",
+      "country": "Brazil",
+      "city": "Rio de Janeiro",
+      "region": "Rio de Janeiro State",
+      "continent": "South America",
+      "category": "Cultural",
+      "description": "Art Deco statue of Jesus Christ atop Mount Corcovado overlooking Guanabara Bay, Sugarloaf Mountain, and Copacabana Beach.",
+      "duration_hours": "2 to 3 hours",
+      "best_season": "December to March",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. BRL 85 - BRL 115 cog train ticket",
+      "coordinates": {
+        "lat": -22.9519,
+        "lng": -43.2105
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "art deco",
+        "views",
+        "rio",
+        "statue",
+        "seven wonders"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "iguazu_falls_argentina_brazil",
+      "name": "Iguazu Falls",
+      "country": "Argentina",
+      "city": "Puerto Iguazú",
+      "region": "Misiones",
+      "continent": "South America",
+      "category": "Nature",
+      "description": "Spectacular cascade of 275 individual waterfalls straddling Argentina and Brazil, crowned by the thundering Devil's Throat chasm.",
+      "duration_hours": "Full Day",
+      "best_season": "March to May, August to October",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. ARS 20,000 / USD 25 park entry",
+      "coordinates": {
+        "lat": -25.6953,
+        "lng": -54.4367
+      },
+      "traveler_types": [
+        "Family",
+        "Couple",
+        "Solo",
+        "Adventure"
+      ],
+      "tags": [
+        "waterfalls",
+        "jungle",
+        "rainbows",
+        "unesco",
+        "nature"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1518182170546-07661fd94144?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "pyramids_of_giza_egypt",
+      "name": "Pyramids of Giza & Great Sphinx",
+      "country": "Egypt",
+      "city": "Giza",
+      "region": "Cairo",
+      "continent": "Africa",
+      "category": "Historical",
+      "description": "The oldest and sole surviving Ancient Wonder of the World, constructed as monumental royal tombs for pharaohs Khufu, Khafre, and Menkaure.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "October to April",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. EGP 540 entrance ticket",
+      "coordinates": {
+        "lat": 29.9792,
+        "lng": 31.1342
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "ancient wonders",
+        "pharaohs",
+        "pyramids",
+        "sphinx",
+        "cairo",
+        "desert"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "table_mountain_south_africa",
+      "name": "Table Mountain & Cableway",
+      "country": "South Africa",
+      "city": "Cape Town",
+      "region": "Western Cape",
+      "continent": "Africa",
+      "category": "Nature",
+      "description": "Flat-topped landmark mountain overlooking Cape Town and the Atlantic Ocean, home to rich indigenous fynbos flora and rotating cable cars.",
+      "duration_hours": "3 to 4 hours",
+      "best_season": "November to March",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. ZAR 420 return cable car ticket",
+      "coordinates": {
+        "lat": -33.9628,
+        "lng": 18.4098
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Adventure"
+      ],
+      "tags": [
+        "mountain",
+        "hiking",
+        "views",
+        "cable car",
+        "cape town",
+        "flora"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "kruger_national_park_sa",
+      "name": "Kruger National Park",
+      "country": "South Africa",
+      "city": "Nelspruit",
+      "region": "Mpumalanga / Limpopo",
+      "continent": "Africa",
+      "category": "Adventure",
+      "description": "One of Africa's largest game reserves, famous for high-density sightings of the Big Five: lions, leopards, rhinos, elephants, and buffalos.",
+      "duration_hours": "Multi-Day",
+      "best_season": "May to September (dry season for game viewing)",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. ZAR 480 conservation fee per day",
+      "coordinates": {
+        "lat": -23.9884,
+        "lng": 31.5547
+      },
+      "traveler_types": [
+        "Family",
+        "Couple",
+        "Adventure",
+        "Friends"
+      ],
+      "tags": [
+        "safari",
+        "big five",
+        "wildlife",
+        "game drive",
+        "wilderness"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "victoria_falls_zimbabwe_zambia",
+      "name": "Victoria Falls (Mosi-oa-Tunya)",
+      "country": "Zimbabwe",
+      "city": "Victoria Falls",
+      "region": "Matabeleland North",
+      "continent": "Africa",
+      "category": "Nature",
+      "description": "The 'Smoke that Thunders', the world's largest sheet of falling water on the Zambezi River with perpetual mist and rainbows.",
+      "duration_hours": "Half Day to Full Day",
+      "best_season": "February to May (high water), August to December (Devil's Pool)",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. USD 30 - 50 park entry",
+      "coordinates": {
+        "lat": -17.9243,
+        "lng": 25.856
+      },
+      "traveler_types": [
+        "Adventure",
+        "Couple",
+        "Solo",
+        "Family"
+      ],
+      "tags": [
+        "waterfall",
+        "zambezi",
+        "natural wonder",
+        "rainbows",
+        "adventure"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "sydney_opera_house_australia",
+      "name": "Sydney Opera House",
+      "country": "Australia",
+      "city": "Sydney",
+      "region": "New South Wales",
+      "continent": "Oceania",
+      "category": "Cultural",
+      "description": "Expressionist multi-venue performing arts center on Bennelong Point in Sydney Harbour, famous for interlocking vaulted shell roof structures.",
+      "duration_hours": "2 hours",
+      "best_season": "September to November, March to May",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. AUD 43 architectural tour",
+      "coordinates": {
+        "lat": -33.8568,
+        "lng": 151.2153
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "architecture",
+        "harbour",
+        "unesco",
+        "sydney",
+        "theatre"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "great_barrier_reef_australia",
+      "name": "Great Barrier Reef",
+      "country": "Australia",
+      "city": "Cairns",
+      "region": "Queensland",
+      "continent": "Oceania",
+      "category": "Nature",
+      "description": "The world's largest coral reef system composed of over 2,900 individual reefs, home to marine turtles, clownfish, and crystal dive sites.",
+      "duration_hours": "Full Day Catamaran",
+      "best_season": "June to October",
+      "budget_tier": "Luxury",
+      "estimated_cost": "Approx. AUD 180 - AUD 280 day trip",
+      "coordinates": {
+        "lat": -18.2871,
+        "lng": 147.6992
+      },
+      "traveler_types": [
+        "Adventure",
+        "Couple",
+        "Family",
+        "Solo"
+      ],
+      "tags": [
+        "coral reef",
+        "snorkeling",
+        "scuba diving",
+        "ocean",
+        "unesco"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "milford_sound_new_zealand",
+      "name": "Milford Sound (Piopiotahi)",
+      "country": "New Zealand",
+      "city": "Fiordland",
+      "region": "Southland",
+      "continent": "Oceania",
+      "category": "Nature",
+      "description": "Glacial fiord carved into dramatic cliff faces plunging into deep ink-dark waters, flanked by Mitre Peak and cascading rainforest waterfalls.",
+      "duration_hours": "Full Day Cruise Excursion",
+      "best_season": "November to April",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. NZD 110 - NZD 160 scenic cruise",
+      "coordinates": {
+        "lat": -44.6716,
+        "lng": 167.9256
+      },
+      "traveler_types": [
+        "Nature",
+        "Couple",
+        "Solo",
+        "Family"
+      ],
+      "tags": [
+        "fiord",
+        "waterfalls",
+        "new zealand",
+        "cruise",
+        "mitre peak"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1507699622108-4be3abd695ad?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "maasai_mara_kenya",
+      "name": "Maasai Mara National Reserve",
+      "country": "Kenya",
+      "city": "Narok County",
+      "region": "Rift Valley",
+      "continent": "Africa",
+      "category": "Nature",
+      "description": "World-famous wildlife sanctuary known for the Great Migration of millions of wildebeest and zebras, exceptional big cat sightings, and Maasai cultural safaris.",
+      "duration_hours": "Full day / 2 to 3 days",
+      "best_season": "July to October (Great Migration) or January to February",
+      "budget_tier": "Luxury",
+      "estimated_cost": "Approx.  - /day park fees plus safari package",
+      "coordinates": {
+        "lat": -1.4931,
+        "lng": 35.1444
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "wildlife",
+        "safari",
+        "nature",
+        "big five",
+        "photography",
+        "adventure"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "giraffe_centre_nairobi",
+      "name": "Giraffe Centre & Karen Blixen Museum",
+      "country": "Kenya",
+      "city": "Nairobi",
+      "region": "Nairobi County",
+      "continent": "Africa",
+      "category": "Cultural",
+      "description": "Conservation sanctuary for endangered Rothschild giraffes where visitors can hand-feed giraffes on an elevated platform, paired with the historic Out of Africa museum.",
+      "duration_hours": "2 to 4 hours",
+      "best_season": "Year-round (dry months June to October best)",
+      "budget_tier": "Budget",
+      "estimated_cost": "Approx.  (Giraffe Centre entry)",
+      "coordinates": {
+        "lat": -1.3758,
+        "lng": 36.7444
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "wildlife",
+        "conservation",
+        "family",
+        "cultural",
+        "animals",
+        "heritage"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "jardin_majorelle_marrakech",
+      "name": "Jardin Majorelle & Yves Saint Laurent Museum",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "region": "Marrakech-Safi",
+      "continent": "Africa",
+      "category": "Cultural",
+      "description": "A two-and-a-half-acre botanical garden and artist landscape in Marrakech, created by French painter Jacques Majorelle and later restored by fashion icon Yves Saint Laurent.",
+      "duration_hours": "2 to 3 hours",
+      "best_season": "March to May and September to November",
+      "budget_tier": "Moderate",
+      "estimated_cost": "Approx. 150 MAD (~ USD) for combined garden and museum entry",
+      "coordinates": {
+        "lat": 31.6417,
+        "lng": -8.0033
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "botanical garden",
+        "art",
+        "fashion",
+        "architecture",
+        "photography",
+        "heritage"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1548013146-72479768bada?w=600&auto=format&fit=crop&q=80"
+    },
+    {
+      "id": "medina_of_fes",
+      "name": "Medina of Fes (Fes el Bali)",
+      "country": "Morocco",
+      "city": "Fes",
+      "region": "Fes-Meknes",
+      "continent": "Africa",
+      "category": "Historical",
+      "description": "One of the world's largest contiguous car-free urban areas and a UNESCO World Heritage site, famous for Chouara Tannery, ancient madrasas, and labyrinthine artisanal souks.",
+      "duration_hours": "Half day to full day",
+      "best_season": "April to May or September to November",
+      "budget_tier": "Budget",
+      "estimated_cost": "Free entry to medina; small fees for madrasas (~ - )",
+      "coordinates": {
+        "lat": 34.0645,
+        "lng": -4.9739
+      },
+      "traveler_types": [
+        "Solo",
+        "Couple",
+        "Family",
+        "Friends"
+      ],
+      "tags": [
+        "unesco",
+        "ancient",
+        "souk",
+        "crafts",
+        "history",
+        "architecture",
+        "leather"
+      ],
+      "image_url": "https://images.unsplash.com/photo-1548013146-72479768bada?w=600&auto=format&fit=crop&q=80"
+    }
+  ]
+}
