@@ -1,0 +1,829 @@
+{
+  "dataset_metadata": {
+    "name": "Voyage AI Local Travel Knowledge Base",
+    "version": "2.0.0",
+    "description": "Curated local destination knowledge base for rule-based travel planning and offline demonstration. Estimates are illustrative and do not reflect real-time pricing or live booking availability.",
+    "data_notice": "All costs, attractions, and schedules are illustrative sample estimates for planning purposes only. Verify live availability and rates before travel."
+  },
+  "destinations": [
+    {
+      "id": "kyoto_japan",
+      "name": "Kyoto, Japan",
+      "country": "Japan",
+      "region": "Asia",
+      "currency": "JPY",
+      "climate": "Temperate/Mild",
+      "budget_tiers": ["Budget", "Moderate", "Luxury"],
+      "companions": ["Solo", "Couple", "Family", "Friends"],
+      "interests": ["Culture", "History", "Food", "Nature"],
+      "min_days": 2,
+      "max_days": 10,
+      "overview": "The cultural heart of Japan, home to thousands of classical Buddhist temples, gardens, imperial palaces, Shinto shrines, and traditional wooden machiya townhouses.",
+      "experiences": [
+        {
+          "name": "Fushimi Inari-taisha Torii Path",
+          "category": "Culture",
+          "description": "Ascend through thousands of vivid vermilion torii gates lining wooded mountain trails dedicated to the Shinto spirit of agriculture.",
+          "practical_tip": "Begin your walk before 7:30 AM to experience peaceful atmosphere and uncrowded photo opportunities.",
+          "estimated_cost": "Free admission"
+        },
+        {
+          "name": "Nishiki Market Culinary Discovery",
+          "category": "Food",
+          "description": "Known as 'Kyoto's Kitchen', this narrow five-block shopping street features over a hundred stalls serving skewers, matcha sweets, and seasonal seafood.",
+          "practical_tip": "Eat purchases directly at designated vendor areas rather than walking while eating, following local etiquette.",
+          "estimated_cost": "Approx. 2,500 - 4,000 JPY per person"
+        },
+        {
+          "name": "Arashiyama Bamboo Grove & Tenryu-ji Garden",
+          "category": "Nature",
+          "description": "Wander through towering emerald bamboo stalks and visit the World Heritage Zen garden designed by master Muso Soseki.",
+          "practical_tip": "Combine with a visit to the adjacent Iwatayama Monkey Park across the Togetsukyo Bridge.",
+          "estimated_cost": "Approx. 500 JPY (Tenryu-ji garden entry)"
+        },
+        {
+          "name": "Gion Historic Preservation District & Teahouses",
+          "category": "History",
+          "description": "Explore the cobblestone streets of Shirakawa and Hanami-koji, famous for traditional wooden machiya architecture and geiko culture.",
+          "practical_tip": "Respect local signs prohibiting photography in private residential side alleys.",
+          "estimated_cost": "Free walking tour"
+        }
+      ],
+      "accommodations": [
+        {
+          "name": "Traditional Machiya Townhouse Guesthouse",
+          "tier": "Moderate",
+          "area": "Gion / Higashiyama",
+          "nightly_price": 16000.0,
+          "reason": "Authentic tatami living experience within walking distance of central temples and riverside teahouses.",
+          "note": "Indicative estimate; rates increase during spring sakura and autumn foliage peak weeks."
+        },
+        {
+          "name": "Kyoto Station Modern Boutique Hotel",
+          "tier": "Budget",
+          "area": "Shimogyo / Kyoto Station",
+          "nightly_price": 9500.0,
+          "reason": "Exceptional convenience for Shinkansen bullet trains, regional JR lines, and city bus terminals.",
+          "note": "Indicative estimate for standard single/double room."
+        },
+        {
+          "name": "Luxury Riverside Ryokan Retreat",
+          "tier": "Luxury",
+          "area": "Arashiyama / Kamogawa",
+          "nightly_price": 48000.0,
+          "reason": "Fine kaiseki multi-course dinners and private hinoki cedar soaking tubs in secluded natural surroundings.",
+          "note": "Advance booking 2-3 months prior required."
+        }
+      ],
+      "logistics": {
+        "overview": "Kyoto has an intuitive municipal grid covered by extensive city buses, two subway lines, and multiple regional private railways.",
+        "transport_options": [
+          {
+            "mode": "City Bus & Subway Network",
+            "description": "Covers virtually every tourist attraction with flat-fare central bus routes and fast subway arteries.",
+            "approx_cost_per_trip": 230.0,
+            "notes": "Tap rechargeable IC cards (ICOCA, Suica, Pasmo) at readers when boarding and exiting."
+          },
+          {
+            "mode": "Local Bicycle Rental",
+            "description": "Kyoto's flat terrain and bike lanes make cycling along the Kamogawa River enjoyable and efficient.",
+            "approx_cost_per_trip": 1200.0,
+            "notes": "Park only in designated bicycle parking lots to avoid impoundment."
+          },
+          {
+            "mode": "Licensed MK / Yasaka Taxis",
+            "description": "Readily hailed at train stations and major crossings; helpful when traveling with luggage.",
+            "approx_cost_per_trip": 1500.0,
+            "notes": "Rear doors open automatically; tipping is not customary."
+          }
+        ],
+        "daily_transport_estimate": 1000.0,
+        "tips": [
+          "Purchase or top up an ICOCA IC transit card upon arrival at Kyoto Station.",
+          "Take subways or JR trains during peak morning hours to bypass surface bus traffic."
+        ],
+        "safety": [
+          "Station platforms have safety announcements in Japanese and English.",
+          "Keep pedestrian sidewalks clear for cyclists."
+        ],
+        "verify": [
+          "Check departure times for last return buses from outer mountain temples like Kurama or Takao.",
+          "Confirm coin locker luggage availability at major stations during festival periods."
+        ]
+      },
+      "cost_defaults": {
+        "accommodation_per_night": 16000.0,
+        "food_per_day": 5000.0,
+        "transport_per_day": 1000.0,
+        "activities_total": 4500.0
+      },
+      "travel_tips": [
+        "Carry cash (Japanese Yen) as smaller shrines, neighborhood noodle shops, and market vendors may not take cards.",
+        "Remove outdoor footwear before stepping onto tatami mat flooring in temples and traditional restaurants.",
+        "Pack comfortable slip-on walking shoes suitable for frequent temple visits."
+      ]
+    },
+    {
+      "id": "rome_italy",
+      "name": "Rome, Italy",
+      "country": "Italy",
+      "region": "Europe",
+      "currency": "EUR",
+      "climate": "Warm/Tropical",
+      "budget_tiers": ["Budget", "Moderate", "Luxury"],
+      "companions": ["Couple", "Solo", "Friends", "Family"],
+      "interests": ["History", "Culture", "Food", "Shopping"],
+      "min_days": 3,
+      "max_days": 10,
+      "overview": "The Eternal City, where nearly three millennia of globally influential art, architecture, and classical culture are on display at every cobblestone piazza.",
+      "experiences": [
+        {
+          "name": "Colosseum & Roman Forum Archaeological Walk",
+          "category": "History",
+          "description": "Step inside the grand amphitheater of the Roman Empire and walk the triumphal roads of the ancient Forum.",
+          "practical_tip": "Book official timed-entry tickets online weeks in advance to avoid unauthorized street resellers.",
+          "estimated_cost": "Approx. 18 EUR per person"
+        },
+        {
+          "name": "Trastevere Evening Food & Wine Tasting",
+          "category": "Food",
+          "description": "Stroll picturesque medieval alleyways sampling authentic Cacio e Pepe, crispy Roman suppli, and local Frascati wine.",
+          "practical_tip": "Arrive around 8:00 PM when neighborhood trattorias open for traditional Roman dinner.",
+          "estimated_cost": "Approx. 35 - 50 EUR per person"
+        },
+        {
+          "name": "Pantheon & Piazza Navona Fountains",
+          "category": "Culture",
+          "description": "Marvel at the world's largest unreinforced concrete dome and Bernini's spectacular Fountain of the Four Rivers.",
+          "practical_tip": "Pick up artisanal pistachio gelato at nearby Giolitti on your stroll.",
+          "estimated_cost": "Approx. 5 EUR Pantheon entry"
+        },
+        {
+          "name": "Villa Borghese Gardens & Panoramic Pincio Terrace",
+          "category": "Nature",
+          "description": "A tranquil green oasis above the city offering sweeping views over Piazza del Popolo and the dome of St. Peter's.",
+          "practical_tip": "Rent an electric surrey bike to tour the park grounds and landscaped ponds.",
+          "estimated_cost": "Free admission"
+        }
+      ],
+      "accommodations": [
+        {
+          "name": "Historic Center Boutique Hotel",
+          "tier": "Moderate",
+          "area": "Campo de' Fiori / Navona",
+          "nightly_price": 140.0,
+          "reason": "Superb central location enabling you to walk to all iconic sights without taking transit.",
+          "note": "City tourist tax of approx. 6 EUR per person/night payable at check-in."
+        },
+        {
+          "name": "Monti Neighborhood Guesthouse",
+          "tier": "Budget",
+          "area": "Rione Monti",
+          "nightly_price": 85.0,
+          "reason": "Trendy, artisan neighborhood with cozy wine bars, just steps from the Colosseum.",
+          "note": "Indicative seasonal rate; walk-up staircases common in historic buildings."
+        },
+        {
+          "name": "Luxury Hotel near Spanish Steps",
+          "tier": "Luxury",
+          "area": "Piazza di Spagna",
+          "nightly_price": 380.0,
+          "reason": "Five-star service with private courtyard gardens and rooftop views of Roman terracotta rooftops.",
+          "note": "Includes concierge tour booking services."
+        }
+      ],
+      "logistics": {
+        "overview": "Rome is best explored on foot, supported by Metro Lines A & B, an extensive bus network, and trams.",
+        "transport_options": [
+          {
+            "mode": "Metropolitana (Metro)",
+            "description": "Two primary lines (A and B) intersecting at Roma Termini central station.",
+            "approx_cost_per_trip": 1.5,
+            "notes": "Standard BIT ticket is valid for 100 minutes from initial validation stamping."
+          },
+          {
+            "mode": "ATAC City Buses & Trams",
+            "description": "Frequent routes traversing historic piazzas and connecting outer neighborhoods.",
+            "approx_cost_per_trip": 1.5,
+            "notes": "Purchase tickets before boarding at newsstands (Tabacchi) or tap contactless payment cards."
+          },
+          {
+            "mode": "City Taxis",
+            "description": "White city taxis operating from marked taxi ranks at major squares.",
+            "approx_cost_per_trip": 12.0,
+            "notes": "Ensure the meter starts on tariff 1 for urban rides."
+          }
+        ],
+        "daily_transport_estimate": 6.0,
+        "tips": [
+          "Validate paper transit tickets immediately upon boarding buses or entering metro turnstiles.",
+          "Carry a refillable water bottle to fill at Rome's historic public fountains (Nasoni)."
+        ],
+        "safety": [
+          "Stay alert to personal belongings on crowded Metro Line A trains and near Termini station.",
+          "Decline unsolicited offers from bracelet vendors or unofficial guides outside monument gates."
+        ],
+        "verify": [
+          "Verify Vatican Museums operating hours (closed on most Sundays).",
+          "Confirm dress code compliance (covered shoulders and knees) for all church and basilica visits."
+        ]
+      },
+      "cost_defaults": {
+        "accommodation_per_night": 140.0,
+        "food_per_day": 45.0,
+        "transport_per_day": 6.0,
+        "activities_total": 45.0
+      },
+      "travel_tips": [
+        "Dress respectfully for sacred sites: shoulders and knees must be covered to enter St. Peter's and churches.",
+        "Stand at the counter (al banco) for quick espresso in the morning like a local to save counter surcharges.",
+        "Cobblestone streets (sampietrini) require supportive, flat walking shoes."
+      ]
+    },
+    {
+      "id": "banff_canada",
+      "name": "Banff & Lake Louise, Canada",
+      "country": "Canada",
+      "region": "North America",
+      "currency": "CAD",
+      "climate": "Cool/Alpine",
+      "budget_tiers": ["Moderate", "Luxury"],
+      "companions": ["Solo", "Friends", "Couple", "Family"],
+      "interests": ["Nature", "Adventure"],
+      "min_days": 3,
+      "max_days": 10,
+      "overview": "Canada's oldest national park, nestled in the Rocky Mountains with glacier-fed turquoise lakes, dramatic peaks, and alpine wildlife.",
+      "experiences": [
+        {
+          "name": "Lake Louise & Agnes Tea House Hike",
+          "category": "Adventure",
+          "description": "Hike through alpine fir forests from the shores of Lake Louise up to a historic mountain teahouse nestled next to Lake Agnes.",
+          "practical_tip": "Carry cash (Canadian or US dollars) as the off-grid teahouse does not consistently process credit cards.",
+          "estimated_cost": "Free national park hike"
+        },
+        {
+          "name": "Moraine Lake & Valley of the Ten Peaks",
+          "category": "Nature",
+          "description": "Witness the luminous blue water of Moraine Lake framed by towering quartzite peaks in the Valley of the Ten Peaks.",
+          "practical_tip": "Personal vehicles are restricted on Moraine Lake Road; reserve Parks Canada shuttle shuttles in advance.",
+          "estimated_cost": "Approx. 8 CAD for park shuttle"
+        },
+        {
+          "name": "Banff Upper Hot Springs Soak",
+          "category": "Nature",
+          "description": "Relax in mineral-rich natural thermal waters looking out over Mount Rundle and the surrounding Bow Valley.",
+          "practical_tip": "Late afternoon visits offer soothing mountain sunset views.",
+          "estimated_cost": "Approx. 17 CAD per adult"
+        },
+        {
+          "name": "Banff Gondola & Sulphur Mountain Boardwalk",
+          "category": "Adventure",
+          "description": "Ride high above the pine canopy to the summit ridge for an expansive 360-degree vista of six Canadian mountain ranges.",
+          "practical_tip": "Book morning time slots for clearer visibility before midday alpine cloud buildup.",
+          "estimated_cost": "Approx. 65 CAD per person"
+        }
+      ],
+      "accommodations": [
+        {
+          "name": "Banff Avenue Mountain Lodge",
+          "tier": "Moderate",
+          "area": "Banff Townsite",
+          "nightly_price": 240.0,
+          "reason": "Centrally located on Banff Avenue with complimentary Roam transit passes included.",
+          "note": "National park entry pass is required per person/vehicle in addition to lodging."
+        },
+        {
+          "name": "Alpine Forest Cabin Chalet",
+          "tier": "Moderate",
+          "area": "Tunnel Mountain",
+          "nightly_price": 280.0,
+          "reason": "Quiet wooded setting with wood-burning fireplaces and mountain trails right outside.",
+          "note": "Includes full kitchenette facilities."
+        },
+        {
+          "name": "Fairmont Chateau Lake Louise",
+          "tier": "Luxury",
+          "area": "Lake Louise Shoreline",
+          "nightly_price": 650.0,
+          "reason": "Iconic world-renowned resort positioned right along the emerald shoreline.",
+          "note": "Early booking 6 months ahead recommended for peak summer and winter ski seasons."
+        }
+      ],
+      "logistics": {
+        "overview": "The park operates the clean, hybrid-electric Roam Transit network connecting Banff, Canmore, and Lake Louise.",
+        "transport_options": [
+          {
+            "mode": "Roam Public Transit",
+            "description": "Convenient scheduled bus routes connecting Banff townsite, gondola, and Lake Louise.",
+            "approx_cost_per_trip": 2.0,
+            "notes": "Exact change or mobile app ticketing available."
+          },
+          {
+            "mode": "Parks Canada Shuttles",
+            "description": "Dedicated shuttle service to Moraine Lake and Lake Louise lakeshores from park-and-ride.",
+            "approx_cost_per_trip": 8.0,
+            "notes": "Advance reservation via reservation.pc.gc.ca strongly recommended."
+          },
+          {
+            "mode": "Rental Car / SUV",
+            "description": "Provides maximum flexibility for exploring the Icefields Parkway toward Jasper.",
+            "approx_cost_per_trip": 85.0,
+            "notes": "Requires valid Parks Canada National Park Pass displayed on windshield."
+          }
+        ],
+        "daily_transport_estimate": 16.0,
+        "tips": [
+          "Buy a Parks Canada Discovery Pass if staying more than 6 days in national parks.",
+          "Layer clothing with moisture-wicking synthetics and a waterproof outer shell."
+        ],
+        "safety": [
+          "Carry bear spray on all hikes, know how to use it, and keep it easily accessible (not inside your backpack).",
+          "Stay at least 30 meters away from elk and 100 meters away from bears and cougars."
+        ],
+        "verify": [
+          "Verify seasonal trail closures and bear activity notices at the Banff Visitor Centre.",
+          "Check road conditions along the Icefields Parkway before driving in shoulder seasons."
+        ]
+      },
+      "cost_defaults": {
+        "accommodation_per_night": 240.0,
+        "food_per_day": 65.0,
+        "transport_per_day": 16.0,
+        "activities_total": 85.0
+      },
+      "travel_tips": [
+        "Pack warm layers, thermal gloves, and sunglasses regardless of season—alpine weather shifts rapidly.",
+        "Stay hydrated at high elevations (over 1,400 meters altitude in Banff townsite).",
+        "Keep wildlife wild: never feed animals, which is illegal and harmful to park ecosystems."
+      ]
+    },
+    {
+      "id": "bali_indonesia",
+      "name": "Bali (Ubud & Beaches), Indonesia",
+      "country": "Indonesia",
+      "region": "Southeast Asia",
+      "currency": "USD",
+      "climate": "Warm/Tropical",
+      "budget_tiers": ["Budget", "Moderate"],
+      "companions": ["Solo", "Couple", "Friends"],
+      "interests": ["Nature", "Culture", "Adventure", "Food"],
+      "min_days": 4,
+      "max_days": 14,
+      "overview": "The Island of the Gods, renowned for terraced rice paddies, ancient Hindu temples, surf breaks, wellness culture, and tropical warmth.",
+      "experiences": [
+        {
+          "name": "Tegallalang Rice Terraces & Subak Walk",
+          "category": "Nature",
+          "description": "Trek through lush terraced emerald rice fields utilizing the UNESCO-recognized 9th-century Subak irrigation system.",
+          "practical_tip": "Wear footwear with solid grip as muddy pathways between tiers can become slick.",
+          "estimated_cost": "Approx. $2 USD (25,000 IDR entry)"
+        },
+        {
+          "name": "Sacred Monkey Forest Sanctuary in Ubud",
+          "category": "Nature",
+          "description": "Walk among centuries-old banyan trees and moss-covered temples inhabited by over a thousand playful Balinese long-tailed macaques.",
+          "practical_tip": "Secure all sunglasses, hats, jewelry, and loose bottles before entering the sanctuary.",
+          "estimated_cost": "Approx. $6 USD per adult"
+        },
+        {
+          "name": "Mount Batur Sunrise Volcanic Trek",
+          "category": "Adventure",
+          "description": "Hike to the crater rim of active Mount Batur before dawn to watch the sunrise above the clouds and Lake Batur.",
+          "practical_tip": "Dress in warm layers for the early morning pre-dawn chill before the sun rises.",
+          "estimated_cost": "Approx. $30 - $45 USD with local mountain guide"
+        },
+        {
+          "name": "Traditional Balinese Cooking & Spice Class",
+          "category": "Food",
+          "description": "Visit an organic village market to select fresh galangal, lemongrass, and chilies before preparing a traditional multi-dish feast.",
+          "practical_tip": "Most classes include round-trip transport from Ubud accommodations.",
+          "estimated_cost": "Approx. $25 USD per person"
+        }
+      ],
+      "accommodations": [
+        {
+          "name": "Jungle Villa & Infinity Pool",
+          "tier": "Moderate",
+          "area": "Ubud Outskirts",
+          "nightly_price": 65.0,
+          "reason": "Serene open-air villa surrounded by tropical greenery with daily made-to-order breakfast.",
+          "note": "Includes complimentary shuttle service into Ubud town center."
+        },
+        {
+          "name": "Traditional Balinese Family Compound Guesthouse",
+          "tier": "Budget",
+          "area": "Central Ubud",
+          "nightly_price": 28.0,
+          "reason": "Authentic courtyard experience with carved stone shrines, clean rooms, and friendly hospitality.",
+          "note": "Air conditioning and Wi-Fi included."
+        },
+        {
+          "name": "Luxury Eco-Resort & Spa",
+          "tier": "Luxury",
+          "area": "Sayan Valley",
+          "nightly_price": 260.0,
+          "reason": "World-class wellness sanctuaries with river valley vistas, daily yoga, and fine dining.",
+          "note": "Advance spa bookings recommended."
+        }
+      ],
+      "logistics": {
+        "overview": "Public transit is limited; travelers get around via private driver hires, metered Bluebird taxis, or rideshare apps (Grab/Gojek).",
+        "transport_options": [
+          {
+            "mode": "Private Daily Driver Hire",
+            "description": "Full-day dedicated car and driver for comfortable touring between sights and beaches.",
+            "approx_cost_per_trip": 40.0,
+            "notes": "Cost covers fuel, vehicle, and driver for up to 10 hours."
+          },
+          {
+            "mode": "Grab / Gojek Rideshare",
+            "description": "Mobile rideshare apps for point-to-point car rides and short scooter hops.",
+            "approx_cost_per_trip": 3.0,
+            "notes": "Some central traditional villages have local transport pickup restrictions."
+          },
+          {
+            "mode": "Bluebird Metered Taxis",
+            "description": "Reliable metered taxis recognizable by their light blue color and logo.",
+            "approx_cost_per_trip": 5.0,
+            "notes": "Confirm the driver uses the meter (argo)."
+          }
+        ],
+        "daily_transport_estimate": 15.0,
+        "tips": [
+          "Install the Grab or Gojek mobile app and connect a payment card for seamless transport.",
+          "Always wear a sarong and sash when entering Balinese temple compounds (often rentable at entrance)."
+        ],
+        "safety": [
+          "Drink bottled or filtered water exclusively; avoid tap water.",
+          "Only rent scooters if you possess an International Driving Permit and prior riding experience."
+        ],
+        "verify": [
+          "Verify visa-on-arrival (VOA) requirements and tourist levy payment prior to airport immigration.",
+          "Confirm local village transport zone policies for app-based pickups."
+        ]
+      },
+      "cost_defaults": {
+        "accommodation_per_night": 65.0,
+        "food_per_day": 25.0,
+        "transport_per_day": 15.0,
+        "activities_total": 40.0
+      },
+      "travel_tips": [
+        "Carry small Indonesian Rupiah cash for local warungs (family eateries) and temple donation boxes.",
+        "Respect daily offerings (canang sari) placed on pathways and stairs by stepping around them.",
+        "Apply reef-safe sunscreen and stay hydrated in the humid tropical climate."
+      ]
+    },
+    {
+      "id": "paris_france",
+      "name": "Paris, France",
+      "country": "France",
+      "region": "Europe",
+      "currency": "EUR",
+      "climate": "Temperate/Mild",
+      "budget_tiers": ["Budget", "Moderate", "Luxury"],
+      "companions": ["Couple", "Solo", "Friends"],
+      "interests": ["Culture", "Food", "Shopping", "History"],
+      "min_days": 3,
+      "max_days": 10,
+      "overview": "The City of Light, globally renowned for world-class museums, grand haussmannian boulevards, celebrated bistros, and iconic architectural vistas.",
+      "experiences": [
+        {
+          "name": "Musée du Louvre & Tuileries Gardens",
+          "category": "Culture",
+          "description": "Explore masterpieces spanning millennia, from the Mona Lisa and Winged Victory of Samothrace to French Romanticism.",
+          "practical_tip": "Enter via the Carrousel du Louvre underground mall to bypass long outdoor pyramid queues.",
+          "estimated_cost": "Approx. 22 EUR per adult"
+        },
+        {
+          "name": "Montmartre & Sacré-Cœur Artist Quarter",
+          "category": "History",
+          "description": "Wander winding cobblestone streets, Place du Tertre portrait painters, and the steps leading to the white basilica overlooking Paris.",
+          "practical_tip": "Climb the dome of Sacré-Cœur for the highest open-air panoramic vantage point in the city.",
+          "estimated_cost": "Free walking exploration"
+        },
+        {
+          "name": "Seine River Evening Promenade & Bistro Dining",
+          "category": "Food",
+          "description": "Savor classic steak frites or duck confit at a neighborhood bistro before watching the Eiffel Tower sparkle on the hour.",
+          "practical_tip": "Bistros typically serve dinner starting at 7:30 PM; reservations recommended on weekends.",
+          "estimated_cost": "Approx. 35 - 55 EUR per person"
+        },
+        {
+          "name": "Le Marais Historic Mansions & Boutiques",
+          "category": "Shopping",
+          "description": "Discover 17th-century aristocratic hotels particuliers, indie fashion boutiques, and the historic Place des Vosges.",
+          "practical_tip": "Sunday is a prime day to explore Le Marais when pedestrianized streets remain lively.",
+          "estimated_cost": "Free walking exploration"
+        }
+      ],
+      "accommodations": [
+        {
+          "name": "Charming Left Bank Boutique Hotel",
+          "tier": "Moderate",
+          "area": "Saint-Germain-des-Prés / Latin Quarter",
+          "nightly_price": 165.0,
+          "reason": "Classic Parisian balconies within walking distance of the Seine, cafes, and historic bookshops.",
+          "note": "Standard Parisian rooms are charming but compact in scale."
+        },
+        {
+          "name": "Canal Saint-Martin Guesthouse",
+          "tier": "Budget",
+          "area": "10th Arrondissement",
+          "nightly_price": 95.0,
+          "reason": "Trendy, youthful neighborhood brimming with bakeries, footbridges, and wine bars.",
+          "note": "Near Gare de l'Est and République transit hubs."
+        },
+        {
+          "name": "Palace Hotel near Champs-Élysées",
+          "tier": "Luxury",
+          "area": "8th Arrondissement",
+          "nightly_price": 550.0,
+          "reason": "Unrivaled luxury, Michelin-starred gastronomy, and private terrace views of the Eiffel Tower.",
+          "note": "Includes white-glove concierge and spa access."
+        }
+      ],
+      "logistics": {
+        "overview": "Paris has one of the world's densest and most comprehensive public transit networks with 16 metro lines, 5 RER suburban trains, and buses.",
+        "transport_options": [
+          {
+            "mode": "Paris Métro & RER",
+            "description": "Rapid urban rail with stations rarely more than 400 meters apart in central Paris.",
+            "approx_cost_per_trip": 2.15,
+            "notes": "Use a contactless Navigo Easy card or purchase digital t+ tickets on smartphone."
+          },
+          {
+            "mode": "Vélib' Métropole Bike Share",
+            "description": "Citywide bicycle sharing system with mechanical and electric bikes across thousands of stations.",
+            "approx_cost_per_trip": 3.0,
+            "notes": "Great for cycling along the dedicated protected lanes of Rue de Rivoli."
+          },
+          {
+            "mode": "Official G7 Taxis",
+            "description": "Regulated city taxis with fixed airport tariffs to Charles de Gaulle and Orly.",
+            "approx_cost_per_trip": 15.0,
+            "notes": "Fixed airport fare rules apply between Paris and CDG/Orly."
+          }
+        ],
+        "daily_transport_estimate": 8.5,
+        "tips": [
+          "Download the Île-de-France Mobilités or Citymapper mobile app for real-time transit routing.",
+          "Say 'Bonjour' politely when entering any shop, bakery, or cafe before speaking."
+        ],
+        "safety": [
+          "Be watchful of your phone and wallet on Metro Line 1 and Line 4 during rush hour.",
+          "Ignore petition clipboards and shell game games on sidewalks near monuments."
+        ],
+        "verify": [
+          "Confirm mandatory museum advance timed reservations (e.g. Louvre and Musée d'Orsay).",
+          "Check scheduled weekend engineering work on RER B if commuting to Charles de Gaulle airport."
+        ]
+      },
+      "cost_defaults": {
+        "accommodation_per_night": 165.0,
+        "food_per_day": 55.0,
+        "transport_per_day": 8.5,
+        "activities_total": 55.0
+      },
+      "travel_tips": [
+        "A courteous 'Bonjour, Madame/Monsieur' is fundamental French social etiquette before making requests.",
+        "Tap water in cafes and bistros ('une carafe d'eau') is free, clean, and delicious by law.",
+        "Many museums are free on the first Sunday of each month, but require advance online booking."
+      ]
+    },
+    {
+      "id": "seoul_korea",
+      "name": "Seoul, South Korea",
+      "country": "South Korea",
+      "region": "East Asia",
+      "currency": "KRW",
+      "climate": "Temperate/Mild",
+      "budget_tiers": ["Budget", "Moderate", "Luxury"],
+      "companions": ["Solo", "Friends", "Couple", "Family"],
+      "interests": ["Technology", "Food", "Shopping", "Culture", "History"],
+      "min_days": 3,
+      "max_days": 10,
+      "overview": "A dynamic 24-hour metropolis where ancient royal palaces and tranquil hanok villages coexist alongside gleaming futuristic skyscrapers, high-tech hubs, and K-culture trends.",
+      "experiences": [
+        {
+          "name": "Gyeongbokgung Royal Palace & Changing of Guard",
+          "category": "Culture",
+          "description": "Witness the colorful royal guard changing ceremony and explore the grand throne halls and lotus ponds of the Joseon Dynasty.",
+          "practical_tip": "Visitors wearing traditional Korean Hanbok receive complimentary free admission to the palace.",
+          "estimated_cost": "Approx. 3,000 KRW (Free if wearing Hanbok)"
+        },
+        {
+          "name": "Gwangjang Traditional Night Market",
+          "category": "Food",
+          "description": "Savor sizzling bindaetteok (mung bean pancakes), mayak kimbap, and kalguksu handmade noodle soup surrounded by steam and local market buzz.",
+          "practical_tip": "Benches are equipped with heated seats during colder autumn and winter months.",
+          "estimated_cost": "Approx. 10,000 - 18,000 KRW per person"
+        },
+        {
+          "name": "Bukchon Hanok Village & Samcheong-dong",
+          "category": "History",
+          "description": "Stroll picturesque hill streets lined with hundreds of preserved 600-year-old traditional Korean wooden houses.",
+          "practical_tip": "Bukchon is an active residential neighborhood; maintain quiet hours between 10:00 AM and 5:00 PM.",
+          "estimated_cost": "Free walking exploration"
+        },
+        {
+          "name": "DDP (Dongdaemun Design Plaza) & Tech District",
+          "category": "Technology",
+          "description": "Marvel at Zaha Hadid's neo-futuristic curved architecture, design labs, night shopping complexes, and technology showcases.",
+          "practical_tip": "Visit after twilight when the exterior LED illumination transforms the structure.",
+          "estimated_cost": "Free admission to common grounds"
+        }
+      ],
+      "accommodations": [
+        {
+          "name": "Myeongdong Modern City Hotel",
+          "tier": "Moderate",
+          "area": "Myeongdong / Jung-gu",
+          "nightly_price": 125000.0,
+          "reason": "Direct access to street food alleys, cosmetic shopping boulevards, and Line 4 subway station.",
+          "note": "English and Japanese speaking concierge desk available."
+        },
+        {
+          "name": "Hongdae Youth & Indie Culture Stay",
+          "tier": "Budget",
+          "area": "Hongdae / Mapo-gu",
+          "nightly_price": 65000.0,
+          "reason": "Vibrant arts district near university campuses filled with live street buskers and late-night cafes.",
+          "note": "Direct express train connection to Incheon International Airport."
+        },
+        {
+          "name": "Luxury Hotel in Gangnam",
+          "tier": "Luxury",
+          "area": "Gangnam / Samseong-dong",
+          "nightly_price": 350000.0,
+          "reason": "Ultra-modern luxury suites near COEX mall, K-star road, and Michelin-starred contemporary Korean dining.",
+          "note": "Includes access to indoor Olympic-size lap pool and executive lounge."
+        }
+      ],
+      "logistics": {
+        "overview": "Seoul features arguably the world's most punctual and technologically advanced subway and bus network, with 4G/5G and heated seats throughout.",
+        "transport_options": [
+          {
+            "mode": "Seoul Metropolitan Subway",
+            "description": "Comprehensive subway network with English station announcements, digital maps, and glass platform safety doors.",
+            "approx_cost_per_trip": 1400.0,
+            "notes": "Tap T-money card when entering and exiting to calculate distance fares."
+          },
+          {
+            "mode": "Seoul Color-Coded City Buses",
+            "description": "Blue (arterial), green (branch), and red (express) buses reaching every corner of the city.",
+            "approx_cost_per_trip": 1500.0,
+            "notes": "Free transit transfer discount applies when switching between bus and subway within 30 minutes."
+          },
+          {
+            "mode": "Kakao Taxi / Standard Taxis",
+            "description": "Inexpensive, clean metered city taxis easily hailed curbside or summoned through the Kakao T app.",
+            "approx_cost_per_trip": 6000.0,
+            "notes": "Drivers accept credit cards and T-money transit cards directly."
+          }
+        ],
+        "daily_transport_estimate": 6000.0,
+        "tips": [
+          "Purchase a reloadable T-money card at any convenience store (CU, GS25, 7-Eleven) upon arrival.",
+          "Download Naver Map or KakaoMap on your phone as Google Maps has limited walking directions in South Korea due to local mapping regulations."
+        ],
+        "safety": [
+          "Seoul is one of the safest global cities with extremely low crime rates.",
+          "Pedestrian crosswalks have countdown timers and ground-level LED light bars."
+        ],
+        "verify": [
+          "Verify museum and palace weekly closure days (most royal palaces close on either Mondays or Tuesdays).",
+          "Confirm airport express train (AREX) schedule when planning early morning departures from Incheon."
+        ]
+      },
+      "cost_defaults": {
+        "accommodation_per_night": 125000.0,
+        "food_per_day": 35000.0,
+        "transport_per_day": 6000.0,
+        "activities_total": 20000.0
+      },
+      "travel_tips": [
+        "Install Naver Map or KakaoMap prior to arrival for accurate pedestrian walking directions.",
+        "Use both hands when giving or receiving money, cards, or drinks as a respectful cultural gesture.",
+        "Tipping is not practiced or expected anywhere in South Korea."
+      ]
+    },
+    {
+      "id": "costa_rica",
+      "name": "Arenal & La Fortuna, Costa Rica",
+      "country": "Costa Rica",
+      "region": "Central America",
+      "currency": "USD",
+      "climate": "Warm/Tropical",
+      "budget_tiers": ["Budget", "Moderate"],
+      "companions": ["Family", "Adventure", "Friends", "Solo"],
+      "interests": ["Adventure", "Nature"],
+      "min_days": 3,
+      "max_days": 10,
+      "overview": "The eco-adventure capital of Central America, boasting conical volcanoes, rainforest canopy suspension bridges, tumbling waterfalls, and geothermal hot springs.",
+      "experiences": [
+        {
+          "name": "Mistico Arenal Hanging Bridges Rainforest Canopy Walk",
+          "category": "Adventure",
+          "description": "Walk along suspension bridges strung across the rainforest canopy to view toucans, howler monkeys, and sloths.",
+          "practical_tip": "Hire a certified naturalist guide with a spotting scope at the entrance for tenfold more wildlife sightings.",
+          "estimated_cost": "Approx. $28 USD per adult"
+        },
+        {
+          "name": "La Fortuna Waterfall & River Canyon Swim",
+          "category": "Nature",
+          "description": "Descend 500 forested steps into a volcanic canyon to marvel at the 70-meter cascade pouring into an emerald pool.",
+          "practical_tip": "Wear water shoes to navigate the smooth river boulders safely.",
+          "estimated_cost": "Approx. $18 USD per person"
+        },
+        {
+          "name": "Natural Geothermal Hot Springs Relaxation",
+          "category": "Nature",
+          "description": "Soak in volcanic thermal river pools surrounded by lush orchids, palms, and cascading warm water currents.",
+          "practical_tip": "Many hot springs resorts offer combined day-pass packages that include a traditional Costa Rican lunch or dinner.",
+          "estimated_cost": "Approx. $35 - $60 USD for full-day pass"
+        },
+        {
+          "name": "Organic Coffee & Chocolate Plantation Tour",
+          "category": "Food",
+          "description": "Learn the traditional bean-to-bar chocolate making and coffee roasting processes from local agriculturalists.",
+          "practical_tip": "Fresh roasted single-origin volcanic coffee beans make fantastic take-home gifts.",
+          "estimated_cost": "Approx. $30 USD per adult"
+        }
+      ],
+      "accommodations": [
+        {
+          "name": "Eco-Lodge with Arenal Volcano View",
+          "tier": "Moderate",
+          "area": "La Fortuna Countryside",
+          "nightly_price": 110.0,
+          "reason": "Direct uninterrupted views of the volcano cone, on-site trails, and toucans visiting morning fruit feeders.",
+          "note": "Includes traditional Gallo Pinto breakfast."
+        },
+        {
+          "name": "Downtown La Fortuna Guesthouse",
+          "tier": "Budget",
+          "area": "La Fortuna Town",
+          "nightly_price": 42.0,
+          "reason": "Walking distance to local sodas (traditional diners), tour operators, and public parks.",
+          "note": "Clean, air-conditioned rooms with communal kitchen access."
+        },
+        {
+          "name": "Luxury Rainforest Thermal Springs Resort",
+          "tier": "Luxury",
+          "area": "Arenal National Park Road",
+          "nightly_price": 380.0,
+          "reason": "Private thermal mineral spring pools directly on resort grounds nestled deep in primary rainforest.",
+          "note": "Advance booking recommended for dry season (December-April)."
+        }
+      ],
+      "logistics": {
+        "overview": "Taxis, tourist shared shuttles, and rental cars are the primary modes of travel between San José, Arenal, and local nature reserves.",
+        "transport_options": [
+          {
+            "mode": "Tourist Inter-City Shared Shuttles",
+            "description": "Air-conditioned vans (Interbus / RideCR) running hotel-to-hotel between San José airport and La Fortuna.",
+            "approx_cost_per_trip": 45.0,
+            "notes": "Advance booking recommended; journey takes approx. 3.5 hours."
+          },
+          {
+            "mode": "Official Red Taxis",
+            "description": "Licensed red 4x4 taxis operating with meters or standard flat tariffs in the La Fortuna area.",
+            "approx_cost_per_trip": 10.0,
+            "notes": "Readily available at the central church park in La Fortuna."
+          },
+          {
+            "mode": "Rental SUV",
+            "description": "Ideal for independent exploration of unpaved lake access roads and hidden thermal rivers.",
+            "approx_cost_per_trip": 55.0,
+            "notes": "High-clearance SUV recommended for rural country roads."
+          }
+        ],
+        "daily_transport_estimate": 18.0,
+        "tips": [
+          "US Dollars are widely accepted alongside Costa Rican Colones across hotels, tours, and restaurants.",
+          "Carry a lightweight rain jacket or poncho even in dry season as sudden tropical showers occur."
+        ],
+        "safety": [
+          "Always swim in designated calm areas below waterfalls and heed safety flags.",
+          "Keep car doors locked and do not leave luggage unattended in parked vehicles at trailhead turnouts."
+        ],
+        "verify": [
+          "Verify operating hours and advance booking requirements for national park access.",
+          "Confirm weather forecasts if planning morning canopy ziplining or suspension bridge tours."
+        ]
+      },
+      "cost_defaults": {
+        "accommodation_per_night": 110.0,
+        "food_per_day": 35.0,
+        "transport_per_day": 18.0,
+        "activities_total": 75.0
+      },
+      "travel_tips": [
+        "'Pura Vida' (pure life) is the national greeting and philosophy—embrace a relaxed, unhurried pace.",
+        "Dine at local 'Sodas' for authentic, generous, and inexpensive Casado plates (rice, beans, plantains, and protein).",
+        "Biodegradable insect repellent and reef-safe sunscreen are essential for rainforest exploration."
+      ]
+    }
+  ]
+}
