@@ -418,7 +418,7 @@
                         Suggest a Destination
                       </button>
                     </div>
-                    <div class="input-icon-wrap">
+                    <div class="input-icon-wrap autocomplete-wrapper">
                       <svg class="input-svg-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
@@ -428,14 +428,28 @@
                         id="destination-input"
                         name="destination"
                         class="form-control with-icon"
-                        placeholder="e.g., Kyoto, Japan or Rome, Italy"
-                        maxlength="80"
+                        placeholder="Search worldwide (e.g., Hyderabad, Bali, Swiss Alps, Paris)"
+                        maxlength="160"
                         autocomplete="off"
                         required
+                        aria-autocomplete="list"
+                        aria-expanded="false"
+                        aria-controls="destination-autocomplete-dropdown"
                         aria-describedby="destination-help destination-error"
                       />
+                      <input type="hidden" id="selected-place-id" name="place_id" value="" />
+                      <input type="hidden" id="selected-location-context" name="location_context" value="" />
+
+                      <!-- Worldwide Google Places & Global Atlas Autocomplete Dropdown -->
+                      <div
+                        id="destination-autocomplete-dropdown"
+                        class="autocomplete-dropdown hidden"
+                        role="listbox"
+                        aria-label="Destination suggestions"
+                        tabindex="-1"
+                      ></div>
                     </div>
-                    <span id="destination-help" class="field-hint">Type any city or country, or click 'Suggest a Destination' for a curated match.</span>
+                    <span id="destination-help" class="field-hint">Search places worldwide via Google Places or choose curated suggestions.</span>
                     <span id="destination-error" class="field-error" role="alert" aria-live="polite"></span>
                   </div>
 

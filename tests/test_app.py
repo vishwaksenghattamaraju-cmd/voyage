@@ -71,8 +71,8 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(data["error"]["field"], "destination")
 
     def test_validation_destination_too_long(self):
-        """Test destination exceeding 80 characters returns 400."""
-        long_dest = "A" * 81
+        """Test destination exceeding 160 characters returns 400."""
+        long_dest = "A" * 161
         res = self.client.post("/api/plan", json={"destination": long_dest, "duration_days": 3, "budget": "Moderate"})
         self.assertEqual(res.status_code, 400)
         data = res.get_json()
@@ -85,8 +85,8 @@ class AppTestCase(unittest.TestCase):
             "Tokyo <script>alert(1)</script>",
             "Paris @#$",
             "London; UK",
-            "Rome / Italy",
             "Berlin_Germany",
+            "Rome %20 Italy",
         ]
         for dest in illegal_cases:
             res = self.client.post("/api/plan", json={"destination": dest, "duration_days": 3, "budget": "Moderate"})
@@ -343,6 +343,24 @@ class AppTestCase(unittest.TestCase):
         data = res.get_json()
         self.assertFalse(data["ok"])
         self.assertEqual(data["error"]["code"], "NOT_FOUND")
+
+    def test_places_autocomplete_endpoint(self):
+        """Test GET /api/places/autocomplete returns suggestions."""
+        res = self.client.get("/api/places/autocomplete?query=Hyder")
+        self.assertEqual(res.status_code, 200)
+        data = res.get_json()
+        self.assertTrue(data["ok"])
+        self.assertIn("suggestions", data)
+        self.assertTrue(len(data["suggestions"]) > 0)
+        self.assertTrue(any("Hyderabad" in s["name"] for s in data["suggestions"]))
+
+    def test_places_details_missing_id_returns_400(self):
+        """Test GET /api/places/details without place_id returns 400."""
+        res = self.client.get("/api/places/details")
+        self.assertEqual(res.status_code, 400)
+        data = res.get_json()
+        self.assertFalse(data["ok"])
+        self.assertEqual(data["error"]["code"], "VALIDATION_ERROR")
 
 
 if __name__ == "__main__":

@@ -1040,6 +1040,116 @@ body.app-body {
   align-items: center;
 }
 
+/* Worldwide Google Places & Atlas Autocomplete Dropdown */
+.autocomplete-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 280px;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.autocomplete-dropdown.hidden {
+  display: none !important;
+}
+
+.autocomplete-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color var(--transition-fast);
+  text-align: left;
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+  background-color: var(--ocean-50);
+}
+
+.autocomplete-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  overflow: hidden;
+  flex: 1;
+}
+
+.autocomplete-item-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.autocomplete-item-secondary {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.autocomplete-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  background: var(--ocean-100);
+  color: var(--ocean-800);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+
+.autocomplete-badge.badge-park {
+  background: var(--mint-100);
+  color: var(--mint-600);
+}
+
+.autocomplete-badge.badge-island {
+  background: var(--teal-100);
+  color: var(--teal-700);
+}
+
+.autocomplete-badge.badge-landmark {
+  background: var(--coral-100);
+  color: var(--coral-700);
+}
+
+.autocomplete-attribution {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-light);
+  background: var(--bg-muted);
+  border-top: 1px solid var(--border-subtle);
+}
+
 .input-svg-icon {
   position: absolute;
   left: 1rem;

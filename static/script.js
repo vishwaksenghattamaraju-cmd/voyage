@@ -43,6 +43,14 @@ const DESTINATION_IMAGES = {
   "arenal": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
   "tokyo": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=600&auto=format&fit=crop&q=80",
   "london": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&auto=format&fit=crop&q=80",
+  "hyderabad": "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?w=600&auto=format&fit=crop&q=80",
+  "alps": "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=600&auto=format&fit=crop&q=80",
+  "swiss": "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=600&auto=format&fit=crop&q=80",
+  "grand canyon": "https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?w=600&auto=format&fit=crop&q=80",
+  "canyon": "https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?w=600&auto=format&fit=crop&q=80",
+  "dubai": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&auto=format&fit=crop&q=80",
+  "cape town": "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&auto=format&fit=crop&q=80",
+  "new york": "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=600&auto=format&fit=crop&q=80",
 };
 
 // =====================================================================
@@ -351,8 +359,8 @@ function setFieldError(fieldElement, message) {
 // =====================================================================
 
 function isValidDestination(text) {
-  if (!text || text.length === 0 || text.length > 80) return false;
-  const allowedPattern = /^[\p{L}\p{N}\s,.'()\-]+$/u;
+  if (!text || text.length === 0 || text.length > 160) return false;
+  const allowedPattern = /^[\p{L}\p{N}\s,.'()\-&/:+]+$/u;
   return allowedPattern.test(text);
 }
 
@@ -365,11 +373,11 @@ function validatePlannerForm() {
   if (!destVal) {
     setFieldError(destError, "Please enter a destination or click 'Suggest a Destination'.");
     isValid = false;
-  } else if (destVal.length > 80) {
-    setFieldError(destError, "Destination must not exceed 80 characters.");
+  } else if (destVal.length > 160) {
+    setFieldError(destError, "Destination must not exceed 160 characters.");
     isValid = false;
   } else if (!isValidDestination(destVal)) {
-    setFieldError(destError, "Destination may only contain letters, numbers, spaces, and , . ' ( ) -");
+    setFieldError(destError, "Destination may only contain letters, numbers, spaces, and punctuation characters.");
     isValid = false;
   }
 
@@ -996,6 +1004,11 @@ async function handleFormSubmit(event) {
     document.querySelectorAll('input[name="interests"]:checked')
   ).map((cb) => cb.value);
 
+  const placeIdInput = document.getElementById("selected-place-id");
+  const locCtxInput = document.getElementById("selected-location-context");
+  const placeId = placeIdInput ? placeIdInput.value.trim() : "";
+  const locationContext = locCtxInput ? locCtxInput.value.trim() : "";
+
   const payload = {
     destination: destVal,
     duration_days: daysVal,
@@ -1004,6 +1017,8 @@ async function handleFormSubmit(event) {
     companions: companionsVal,
     climate: climateVal,
   };
+  if (placeId) payload.place_id = placeId;
+  if (locationContext) payload.location_context = locationContext;
 
   startLoading();
 
@@ -1193,12 +1208,194 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Clear field errors on typing
+  // ===================================================================
+  // Worldwide Google Places & Global Atlas Autocomplete
+  // ===================================================================
+  let autocompleteDebounceTimer = null;
+  let currentAutocompleteIndex = -1;
+  let currentSessionToken = null;
+
+  function getOrCreateSessionToken() {
+    if (!currentSessionToken) {
+      currentSessionToken = "sess_" + Math.random().toString(36).substring(2, 12);
+    }
+    return currentSessionToken;
+  }
+
+  function resetSessionToken() {
+    currentSessionToken = null;
+  }
+
+  function closeAutocompleteDropdown() {
+    const dropdown = document.getElementById("destination-autocomplete-dropdown");
+    if (dropdown) {
+      dropdown.innerHTML = "";
+      dropdown.classList.add("hidden");
+      if (destinationInput) destinationInput.setAttribute("aria-expanded", "false");
+    }
+    currentAutocompleteIndex = -1;
+  }
+
+  function selectAutocompleteItem(item) {
+    if (!item || !destinationInput) return;
+    destinationInput.value = item.full_text || item.name;
+    const placeIdInput = document.getElementById("selected-place-id");
+    const locCtxInput = document.getElementById("selected-location-context");
+    if (placeIdInput) placeIdInput.value = item.place_id || "";
+    if (locCtxInput) locCtxInput.value = item.secondary_text || "";
+
+    closeAutocompleteDropdown();
+    resetSessionToken();
+
+    if (destError) {
+      destError.textContent = "";
+      destError.classList.remove("active");
+    }
+  }
+
+  function renderAutocompleteSuggestions(data) {
+    const dropdown = document.getElementById("destination-autocomplete-dropdown");
+    if (!dropdown) return;
+    dropdown.innerHTML = "";
+
+    const suggestions = data && data.suggestions ? data.suggestions : [];
+    if (!suggestions.length) {
+      closeAutocompleteDropdown();
+      return;
+    }
+
+    suggestions.forEach((item, idx) => {
+      const itemEl = document.createElement("div");
+      itemEl.className = "autocomplete-item";
+      itemEl.setAttribute("role", "option");
+      itemEl.setAttribute("id", `ac-opt-${idx}`);
+      itemEl.setAttribute("data-index", idx);
+
+      const mainWrap = document.createElement("div");
+      mainWrap.className = "autocomplete-item-main";
+
+      const titleEl = document.createElement("span");
+      titleEl.className = "autocomplete-item-title";
+      titleEl.textContent = item.name || item.full_text;
+      mainWrap.appendChild(titleEl);
+
+      if (item.secondary_text) {
+        const secEl = document.createElement("span");
+        secEl.className = "autocomplete-item-secondary";
+        secEl.textContent = item.secondary_text;
+        mainWrap.appendChild(secEl);
+      }
+      itemEl.appendChild(mainWrap);
+
+      if (item.category) {
+        const badge = document.createElement("span");
+        badge.className = "autocomplete-badge";
+        const catLower = item.category.toLowerCase();
+        if (catLower.includes("park") || catLower.includes("nature")) badge.classList.add("badge-park");
+        else if (catLower.includes("island") || catLower.includes("beach")) badge.classList.add("badge-island");
+        else if (catLower.includes("landmark")) badge.classList.add("badge-landmark");
+        badge.textContent = item.category;
+        itemEl.appendChild(badge);
+      }
+
+      itemEl.addEventListener("click", () => {
+        selectAutocompleteItem(item);
+      });
+
+      dropdown.appendChild(itemEl);
+    });
+
+    // Legal attribution for Google Places API
+    if (data.attribution === "Google Maps" || data.provider === "google_places") {
+      const attrRow = document.createElement("div");
+      attrRow.className = "autocomplete-attribution";
+      attrRow.textContent = "Powered by Google Maps";
+      dropdown.appendChild(attrRow);
+    }
+
+    dropdown.classList.remove("hidden");
+    if (destinationInput) destinationInput.setAttribute("aria-expanded", "true");
+  }
+
+  async function fetchAutocomplete(query) {
+    if (!query || query.trim().length === 0) {
+      closeAutocompleteDropdown();
+      return;
+    }
+    const token = getOrCreateSessionToken();
+    try {
+      const resp = await apiRequest(
+        `/api/places/autocomplete?query=${encodeURIComponent(query.trim())}&session_token=${encodeURIComponent(token)}`
+      );
+      if (resp && resp.ok) {
+        renderAutocompleteSuggestions(resp);
+      } else {
+        closeAutocompleteDropdown();
+      }
+    } catch (err) {
+      console.warn("Autocomplete fetch failed:", err);
+      closeAutocompleteDropdown();
+    }
+  }
+
+  // Clear field errors & trigger debounced autocomplete on typing
   if (destinationInput) {
-    destinationInput.addEventListener("input", () => {
+    destinationInput.addEventListener("input", (e) => {
       if (destError) {
         destError.textContent = "";
         destError.classList.remove("active");
+      }
+
+      // Reset place ID on manual text modification
+      const placeIdInput = document.getElementById("selected-place-id");
+      if (placeIdInput) placeIdInput.value = "";
+
+      clearTimeout(autocompleteDebounceTimer);
+      const query = e.target.value;
+      if (!query || query.trim().length === 0) {
+        closeAutocompleteDropdown();
+        return;
+      }
+
+      autocompleteDebounceTimer = setTimeout(() => {
+        fetchAutocomplete(query);
+      }, 250);
+    });
+
+    destinationInput.addEventListener("keydown", (e) => {
+      const dropdown = document.getElementById("destination-autocomplete-dropdown");
+      if (!dropdown || dropdown.classList.contains("hidden")) return;
+
+      const items = dropdown.querySelectorAll(".autocomplete-item");
+      if (!items.length) return;
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        currentAutocompleteIndex = (currentAutocompleteIndex + 1) % items.length;
+        items.forEach((it, idx) => {
+          it.classList.toggle("active", idx === currentAutocompleteIndex);
+          if (idx === currentAutocompleteIndex) it.scrollIntoView({ block: "nearest" });
+        });
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        currentAutocompleteIndex = (currentAutocompleteIndex - 1 + items.length) % items.length;
+        items.forEach((it, idx) => {
+          it.classList.toggle("active", idx === currentAutocompleteIndex);
+          if (idx === currentAutocompleteIndex) it.scrollIntoView({ block: "nearest" });
+        });
+      } else if (e.key === "Enter" && currentAutocompleteIndex >= 0) {
+        e.preventDefault();
+        items[currentAutocompleteIndex].click();
+      } else if (e.key === "Escape") {
+        closeAutocompleteDropdown();
+      }
+    });
+
+    // Close dropdown on click outside
+    document.addEventListener("click", (e) => {
+      const wrap = document.querySelector(".autocomplete-wrapper");
+      if (wrap && !wrap.contains(e.target)) {
+        closeAutocompleteDropdown();
       }
     });
   }

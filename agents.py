@@ -187,6 +187,8 @@ def run_rule_based_agents(
     companions: str = "Solo",
     climate: str = "Any",
     fallback_note: Optional[str] = None,
+    place_id: Optional[str] = None,
+    location_context: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Execute the multi-agent travel plan using pure-Python rule-based agents and local data.
 
@@ -205,6 +207,8 @@ def run_rule_based_agents(
         interests=clean_interests,
         companions=companion_type,
         climate=climate_pref,
+        place_id=place_id,
+        location_context=location_context,
     )
     final_dest_name = dest_data.get("name", clean_dest)
     experiences = dest_data.get("experiences", [])
@@ -272,6 +276,8 @@ def run_rule_based_agents(
         "estimated_budget": estimated_budget,
         "travel_tips": travel_tips,
         "fallback_used": bool(fallback_note),
+        "place_id": place_id or dest_data.get("place_id"),
+        "location_context": location_context or dest_data.get("country"),
     }
 
 
@@ -792,13 +798,15 @@ def run_agents(
     interests: Optional[List[str]] = None,
     companions: str = "Solo",
     climate: str = "Any",
+    place_id: Optional[str] = None,
+    location_context: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Execute the multi-agent travel planning pipeline with automatic fallback.
 
     If an external LLM fails, is unconfigured, or has invalid keys, it automatically
     switches to the pure-Python rule-based planning engine without crashing.
     """
-    clean_dest = clean_string(destination, max_len=80)
+    clean_dest = clean_string(destination, max_len=160)
     clean_interests = interests or []
     provider = get_active_provider()
 
@@ -821,6 +829,8 @@ def run_agents(
             interests=clean_interests,
             companions=companions,
             climate=climate,
+            place_id=place_id,
+            location_context=location_context,
         )
         plan["llm_provider"] = provider
         return plan
@@ -865,6 +875,8 @@ def run_agents(
             "interests": clean_interests,
             "companions": companions,
             "climate": climate,
+            "place_id": place_id,
+            "location_context": location_context,
             "llm_provider": provider,
             "summary": agent4_out["summary"],
             "experiences": experiences,
@@ -891,5 +903,7 @@ def run_agents(
             interests=clean_interests,
             companions=companions,
             climate=climate,
+            place_id=place_id,
+            location_context=location_context,
             fallback_note=f"Plan generated via rule-based engine (LLM {provider} unavailable).",
         )

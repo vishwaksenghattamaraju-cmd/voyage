@@ -27,6 +27,11 @@ from flask import Flask, jsonify, render_template, request
 load_dotenv()
 
 from agents import AgentError, get_active_provider, run_agents
+from places_service import (
+    get_autocomplete_suggestions,
+    get_place_details,
+    is_google_places_configured,
+)
 from planner.destination_agent import recommend_destinations
 from storage import (
     StorageCorruptedError,
@@ -110,8 +115,8 @@ MAX_DAYS = 30
 # =====================================================================
 
 def is_valid_destination_chars(text: str) -> bool:
-    """Validate that text only contains letters (any language), digits, spaces, and , . ' ( ) -"""
-    allowed_punct = {",", ".", "'", "(", ")", "-"}
+    """Validate that text only contains letters (any language), digits, spaces, and safe punctuation."""
+    allowed_punct = {",", ".", "'", "(", ")", "-", "&", "/", ":"}
     for ch in text:
         if ch.isalnum() or ch.isspace() or ch in allowed_punct:
             continue
@@ -153,18 +158,25 @@ def validate_plan_request(data: Any) -> Tuple[Optional[Dict[str, Any]], Optional
                     "field": "destination",
                 }
             destination = "Recommend"
-        elif len(destination) > 80:
+        elif len(destination) > 160:
             return None, {
                 "code": "VALIDATION_ERROR",
-                "message": "Destination must not exceed 80 characters.",
+                "message": "Destination must not exceed 160 characters.",
                 "field": "destination",
             }
         elif not is_valid_destination_chars(destination):
             return None, {
                 "code": "VALIDATION_ERROR",
-                "message": "Destination may only contain letters, numbers, spaces, and , . ' ( ) - characters.",
+                "message": "Destination may only contain letters, numbers, spaces, and punctuation characters.",
                 "field": "destination",
             }
+
+    # Optional Google Place ID & Location Context
+    raw_place_id = data.get("place_id")
+    place_id = str(raw_place_id).strip() if raw_place_id and isinstance(raw_place_id, str) else None
+
+    raw_loc_ctx = data.get("location_context")
+    location_context = str(raw_loc_ctx).strip() if raw_loc_ctx and isinstance(raw_loc_ctx, str) else None
 
     # 2. Duration Days
     raw_days = data.get("duration_days")
@@ -250,6 +262,8 @@ def validate_plan_request(data: Any) -> Tuple[Optional[Dict[str, Any]], Optional
         "interests": cleaned_interests,
         "companions": companions,
         "climate": climate,
+        "place_id": place_id,
+        "location_context": location_context,
     }, None
 
 
@@ -278,8 +292,31 @@ def index():
         max_days=MAX_DAYS,
         active_provider=current_provider,
         is_cloud_db=is_supabase_configured(),
+        has_google_places=is_google_places_configured(),
         cache_bust=int(time.time()),
     )
+
+
+@app.route("/api/places/autocomplete", methods=["GET"])
+def places_autocomplete():
+    """Return worldwide destination autocomplete suggestions via Google Places API (New) or offline atlas."""
+    query = request.args.get("query") or request.args.get("input") or ""
+    session_token = request.args.get("session_token")
+    res = get_autocomplete_suggestions(query=query, session_token=session_token)
+    return jsonify(res), 200
+
+
+@app.route("/api/places/details", methods=["GET"])
+def places_details():
+    """Retrieve detailed location data for a selected Google Places identifier."""
+    place_id = request.args.get("place_id") or ""
+    session_token = request.args.get("session_token")
+    if not place_id:
+        return jsonify({"ok": False, "error": {"code": "VALIDATION_ERROR", "message": "place_id is required"}}), 400
+    res = get_place_details(place_id=place_id, session_token=session_token)
+    if not res:
+        return jsonify({"ok": False, "error": {"code": "NOT_FOUND", "message": "Place details not found"}}), 404
+    return jsonify({"ok": True, "place": res}), 200
 
 
 @app.route("/api/recommend-destination", methods=["POST"])
@@ -324,6 +361,10 @@ def create_plan():
             agent_kwargs["companions"] = cleaned["companions"]
         if payload and "climate" in payload:
             agent_kwargs["climate"] = cleaned["climate"]
+        if cleaned.get("place_id"):
+            agent_kwargs["place_id"] = cleaned["place_id"]
+        if cleaned.get("location_context"):
+            agent_kwargs["location_context"] = cleaned["location_context"]
 
         plan = run_agents(**agent_kwargs)
     except AgentError as agent_err:

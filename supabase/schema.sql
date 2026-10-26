@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS public.trips (
     companions TEXT NOT NULL DEFAULT '',
     climate TEXT NOT NULL DEFAULT '',
     llm_provider TEXT NOT NULL DEFAULT '',
+    place_id TEXT DEFAULT '',
+    location_context TEXT DEFAULT '',
     trip_data JSONB NOT NULL DEFAULT '{}'::jsonb
 );
 
@@ -30,6 +32,8 @@ ALTER TABLE public.trips ADD COLUMN IF NOT EXISTS budget TEXT DEFAULT '';
 ALTER TABLE public.trips ADD COLUMN IF NOT EXISTS companions TEXT DEFAULT '';
 ALTER TABLE public.trips ADD COLUMN IF NOT EXISTS climate TEXT DEFAULT '';
 ALTER TABLE public.trips ADD COLUMN IF NOT EXISTS llm_provider TEXT DEFAULT '';
+ALTER TABLE public.trips ADD COLUMN IF NOT EXISTS place_id TEXT DEFAULT '';
+ALTER TABLE public.trips ADD COLUMN IF NOT EXISTS location_context TEXT DEFAULT '';
 ALTER TABLE public.trips ADD COLUMN IF NOT EXISTS trip_data JSONB DEFAULT '{}'::jsonb;
 
 -- 3. Ensure primary key on trip_id safely
