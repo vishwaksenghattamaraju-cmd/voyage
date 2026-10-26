@@ -41,28 +41,6 @@ To eliminate AI hallucination in math, budget totals are computed deterministica
 
 ---
 
-## Recommended: Run Offline Without Any API Keys
-
-The project includes a Python rule-based planning engine and local destination data. You do **not** need OpenAI, Gemini, Groq, or any other LLM API to generate a trip. To avoid accidental cloud API calls, use the included PowerShell launcher:
-
-```powershell
-.\run_offline.ps1
-```
-
-This sets `DEMO_MODE=true` and `LLM_PROVIDER=rule_based` for that process before starting Flask. It takes precedence over API keys in an existing `.env` file. The plan is generated from local rules and sample data; costs and availability are estimates, not live quotes.
-
-If you prefer to launch manually in PowerShell:
-
-```powershell
-$env:DEMO_MODE = "true"
-$env:LLM_PROVIDER = "rule_based"
-python app.py
-```
-
-For a clean install, create a virtual environment and install the dependencies listed in `requirements.txt`. The optional Gemini, Groq, and OpenAI packages are only needed if you explicitly choose those cloud providers.
-
----
-
 ## Step-by-Step Setup Guide (Windows & VS Code)
 
 ### Prerequisites: Python Installation
@@ -177,6 +155,68 @@ deactivate
 | `POST` | `/api/plan` | Accepts `destination`, `duration_days`, `budget`, optional `interests`, `companions`, `climate`. Runs the multi-agent pipeline with automatic fallback, computes budget, stores, and returns trip JSON (`201 Created`). |
 | `GET` | `/api/trips` | Returns an array of all saved trips sorted newest-first (`200 OK`). |
 | `GET` | `/api/trips/<trip_id>` | Returns details for a specific saved trip (`200 OK` or `404 Not Found`). |
+| `DELETE` | `/api/trips/<trip_id>` | Deletes a saved trip from persistent storage (`200 OK` or `404 Not Found`). |
+
+---
+
+## Deploying to Vercel (Production)
+
+Voyage AI is fully architected for **Vercel Serverless Functions** with zero-configuration Python runtime support.
+
+### Architecture on Vercel
+- **Entrypoint:** `api/index.py` exposes the Flask WSGI `app` to Vercel's serverless Python runtime.
+- **Routing:** `vercel.json` rewrites all requests to `api/index.py`, while `app.py` serves templates and static assets.
+- **Database Persistence (Supabase):** Serverless function filesystems are ephemeral. Voyage AI includes a free Supabase PostgreSQL adapter so saved trips persist across redeployments and cold starts. If Supabase is omitted, it falls back to `/tmp/trips.json` for session demonstration.
+
+### Step-by-Step Vercel Deployment
+
+#### Step 1: Create Free Supabase Database ($0 Cost)
+1. Go to [supabase.com](https://supabase.com) and create a free project.
+2. In the Supabase Dashboard, open **SQL Editor** &gt; **New Query**.
+3. Paste and run this SQL to create the `trips` table:
+   ```sql
+   CREATE TABLE IF NOT EXISTS trips (
+     trip_id TEXT PRIMARY KEY,
+     created_at TIMESTAMPTZ DEFAULT NOW(),
+     trip_data JSONB NOT NULL
+   );
+   ```
+4. In Supabase, go to **Project Settings** &gt; **API**:
+   - Copy **Project URL** (this is `SUPABASE_URL`).
+   - Copy **anon public** or **service_role secret** key (this is `SUPABASE_KEY`).
+
+#### Step 2: Push Your Code to GitHub
+1. In your local terminal, initialize git (if not already done):
+   ```powershell
+   git init
+   git add .
+   git commit -m "feat: Voyage AI production Vercel & Supabase deployment setup"
+   ```
+2. Create a new repository on [github.com](https://github.com/new).
+3. Push your repository:
+   ```powershell
+   git remote add origin https://github.com/<your-username>/<your-repo-name>.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+#### Step 3: Import Project to Vercel
+1. Go to [vercel.com/new](https://vercel.com/new) and log in.
+2. Select **Import** next to your GitHub repository.
+3. In **Project Settings**:
+   - **Framework Preset:** Leave as *Other* (or auto-detected).
+   - **Root Directory:** `./`
+4. Expand **Environment Variables** and add:
+
+   | Variable Name | Value | Purpose |
+   | :--- | :--- | :--- |
+   | `SUPABASE_URL` | `https://xxxx.supabase.co` | Free cloud database for permanent saved trips |
+   | `SUPABASE_KEY` | `eyJhbGciOi...` | Supabase API key (anon or service_role) |
+   | `LLM_PROVIDER` | `auto` (or `rule_based`, `gemini`, `groq`) | LLM engine selection |
+   | `GEMINI_API_KEY` | *(Optional)* `AIzaSy...` | Free Google Gemini key (optional) |
+   | `GROQ_API_KEY` | *(Optional)* `gsk_...` | Free Groq Cloud key (optional) |
+
+5. Click **Deploy**. Vercel will install dependencies and provision your serverless application in seconds!
 
 ---
 
@@ -184,7 +224,7 @@ deactivate
 
 All external AI requests are mocked in unit tests, and rule-based tests run entirely offline, so **no API key or internet access is required to run tests**.
 
-To execute all 38 unit and integration tests:
+To execute all 46 unit, integration, and storage tests:
 ```powershell
 .venv\Scripts\python -m unittest discover tests -v
 ```

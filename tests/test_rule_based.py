@@ -9,7 +9,6 @@ Covers:
 - /api/recommend-destination endpoint verification
 """
 
-import json
 import os
 import shutil
 import tempfile
@@ -22,7 +21,6 @@ from planner.budget_agent import estimate_budget
 from planner.dataset import get_all_destinations
 from planner.destination_agent import recommend_destinations, resolve_or_create_destination
 from planner.itinerary_agent import build_itinerary
-from planner.travel_tips_agent import generate_logistics_and_tips
 
 
 class RuleBasedEngineTestCase(unittest.TestCase):

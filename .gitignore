@@ -1,6 +1,12 @@
 .venv/
 .env
+.vercel/
+.vscode/
 __pycache__/
 *.pyc
 *.corrupt-*.json
 *.tmp
+node_modules/
+package-lock.json
+package.json
+scratch*

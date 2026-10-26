@@ -28,6 +28,21 @@ load_dotenv()
 
 from agents import AgentError, get_active_provider, run_agents
 from planner.destination_agent import recommend_destinations
+from storage import (
+    StorageCorruptedError,
+    StorageError,
+    add_trip,
+    delete_trip as storage_delete_trip,
+    get_default_trips_filepath,
+    get_trip_by_id,
+    is_supabase_configured,
+    load_trips,
+    update_trip as storage_update_trip,
+    _save_trips_file_unlocked as _save_trips_unlocked,
+    _load_trips_file_locked as _load_trips_locked,
+    _add_trip_file_locked as _add_trip_locked,
+    _delete_trip_file_locked as _delete_trip_locked,
+)
 
 # Configure application logging (never log API keys or secrets)
 logging.basicConfig(
@@ -51,14 +66,26 @@ elif _active_provider == "groq":
 elif _active_provider == "openai":
     print("[INFO] Active LLM Provider: OpenAI (with automatic rule-based fallback).", file=sys.stderr)
 
-app = Flask(__name__)
+# Log storage engine status
+if is_supabase_configured():
+    print("[INFO] Production Storage: Connected to Supabase PostgreSQL Database (Cloud Persistence).", file=sys.stderr)
+else:
+    print(
+        f"[INFO] Local Storage: Using file storage at '{get_default_trips_filepath()}' "
+        "(Set SUPABASE_URL and SUPABASE_KEY for permanent cloud storage on Vercel).",
+        file=sys.stderr,
+    )
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static"),
+    static_url_path="/static",
+)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
-
-# Default trips file location (overridable by tests or environment)
-app.config["TRIPS_FILE"] = os.environ.get(
-    "TRIPS_FILE", os.path.join(os.path.dirname(os.path.abspath(__file__)), "trips.json")
-)
+app.config["TRIPS_FILE"] = get_default_trips_filepath()
 
 # Concurrency lock for safe file operations
 _storage_lock = threading.Lock()
@@ -76,123 +103,6 @@ ALLOWED_BUDGETS = {"Budget", "Moderate", "Luxury"}
 ALLOWED_COMPANIONS = ["Solo", "Couple", "Family", "Friends"]
 ALLOWED_CLIMATES = ["Any", "Warm/Tropical", "Temperate/Mild", "Cool/Alpine"]
 MAX_DAYS = 30
-
-
-class StorageCorruptedError(Exception):
-    """Raised when trips.json exists but contains invalid JSON or structure."""
-    pass
-
-
-# =====================================================================
-# Atomic Storage Helpers
-# =====================================================================
-
-def _save_trips_unlocked(filepath: str, trips: List[Dict[str, Any]]) -> None:
-    """Write trips list atomically to disk using a temporary file and os.replace."""
-    dir_name = os.path.dirname(os.path.abspath(filepath)) or "."
-    fd, tmp_path = tempfile.mkstemp(dir=dir_name, prefix="trips_", suffix=".tmp")
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as f:
-            json.dump(trips, f, indent=2, ensure_ascii=False)
-            f.flush()
-            os.fsync(f.fileno())
-        os.replace(tmp_path, filepath)
-    except Exception:
-        if os.path.exists(tmp_path):
-            try:
-                os.remove(tmp_path)
-            except OSError:
-                pass
-        raise
-
-
-def _load_trips_locked(filepath: str) -> List[Dict[str, Any]]:
-    """Load trips from the JSON file with thread safety, auto-creation, and corruption backup."""
-    with _storage_lock:
-        if not os.path.exists(filepath):
-            _save_trips_unlocked(filepath, [])
-            return []
-
-        try:
-            with open(filepath, "r", encoding="utf-8") as f:
-                content = f.read().strip()
-                if not content:
-                    return []
-                data = json.loads(content)
-            if not isinstance(data, list):
-                raise ValueError("Trips content root is not a list")
-            return data
-        except (json.JSONDecodeError, ValueError) as err:
-            timestamp = int(time.time())
-            corrupt_path = f"{filepath}.corrupt-{timestamp}.json"
-            try:
-                shutil.copyfile(filepath, corrupt_path)
-                logger.error("Corrupted trips file backed up to %s: %s", corrupt_path, err)
-            except Exception as copy_err:
-                logger.error("Failed to create backup of corrupted trips file: %s", copy_err)
-            raise StorageCorruptedError(
-                f"Trips storage file is corrupt and has been backed up to {os.path.basename(corrupt_path)}."
-            )
-
-
-def _add_trip_locked(filepath: str, trip_data: Dict[str, Any]) -> None:
-    """Prepend a newly generated trip to trips.json atomically under lock."""
-    with _storage_lock:
-        trips = []
-        if os.path.exists(filepath):
-            try:
-                with open(filepath, "r", encoding="utf-8") as f:
-                    content = f.read().strip()
-                    trips = json.loads(content) if content else []
-                if not isinstance(trips, list):
-                    raise ValueError("Trips file is not a list")
-            except (json.JSONDecodeError, ValueError) as err:
-                timestamp = int(time.time())
-                corrupt_path = f"{filepath}.corrupt-{timestamp}.json"
-                try:
-                    shutil.copyfile(filepath, corrupt_path)
-                    logger.error("Corrupted trips file backed up to %s: %s", corrupt_path, err)
-                except Exception:
-                    pass
-                raise StorageCorruptedError(
-                    f"Trips storage file is corrupt and has been backed up to {os.path.basename(corrupt_path)}."
-                )
-
-        trips.insert(0, trip_data)
-        _save_trips_unlocked(filepath, trips)
-
-
-def _delete_trip_locked(filepath: str, trip_id: str) -> bool:
-    """Delete a trip by trip_id from trips.json under lock. Returns True if deleted, False if not found."""
-    with _storage_lock:
-        if not os.path.exists(filepath):
-            return False
-        try:
-            with open(filepath, "r", encoding="utf-8") as f:
-                content = f.read().strip()
-                trips = json.loads(content) if content else []
-            if not isinstance(trips, list):
-                raise ValueError("Trips file is not a list")
-        except (json.JSONDecodeError, ValueError) as err:
-            timestamp = int(time.time())
-            corrupt_path = f"{filepath}.corrupt-{timestamp}.json"
-            try:
-                shutil.copyfile(filepath, corrupt_path)
-                logger.error("Corrupted trips file backed up to %s: %s", corrupt_path, err)
-            except Exception:
-                pass
-            raise StorageCorruptedError(
-                f"Trips storage file is corrupt and has been backed up to {os.path.basename(corrupt_path)}."
-            )
-
-        clean_id = trip_id.strip().lower()
-        original_len = len(trips)
-        trips = [t for t in trips if str(t.get("trip_id", "")).strip().lower() != clean_id]
-        if len(trips) == original_len:
-            return False
-
-        _save_trips_unlocked(filepath, trips)
-        return True
 
 
 # =====================================================================
@@ -367,6 +277,7 @@ def index():
         allowed_climates=ALLOWED_CLIMATES,
         max_days=MAX_DAYS,
         active_provider=current_provider,
+        is_cloud_db=is_supabase_configured(),
         cache_bust=int(time.time()),
     )
 
@@ -450,13 +361,25 @@ def create_plan():
     }
 
     try:
-        _add_trip_locked(app.config["TRIPS_FILE"], trip_data)
+        add_trip(trip_data, filepath=app.config.get("TRIPS_FILE"))
     except StorageCorruptedError as storage_err:
         return (
             jsonify({
                 "ok": False,
                 "error": {
                     "code": "DATA_CORRUPT",
+                    "message": str(storage_err),
+                },
+            }),
+            500,
+        )
+    except StorageError as storage_err:
+        logger.exception("Storage failure saving trip: %s", storage_err)
+        return (
+            jsonify({
+                "ok": False,
+                "error": {
+                    "code": "STORAGE_ERROR",
                     "message": str(storage_err),
                 },
             }),
@@ -482,7 +405,7 @@ def create_plan():
 def get_trips():
     """Return all saved trips, newest first."""
     try:
-        trips = _load_trips_locked(app.config["TRIPS_FILE"])
+        trips = load_trips(filepath=app.config.get("TRIPS_FILE"))
         sorted_trips = sorted(
             trips,
             key=lambda t: t.get("created_at", ""),
@@ -496,6 +419,18 @@ def get_trips():
                 "error": {
                     "code": "DATA_CORRUPT",
                     "message": str(corrupt_err),
+                },
+            }),
+            500,
+        )
+    except StorageError as storage_err:
+        logger.exception("Storage failure reading trips: %s", storage_err)
+        return (
+            jsonify({
+                "ok": False,
+                "error": {
+                    "code": "STORAGE_ERROR",
+                    "message": str(storage_err),
                 },
             }),
             500,
@@ -517,9 +452,11 @@ def get_trips():
 @app.route("/api/trips/<trip_id>", methods=["GET"])
 def get_trip(trip_id: str):
     """Retrieve a single saved trip by trip_id."""
-    clean_id = trip_id.strip().lower()
+    clean_id = trip_id.strip()
     try:
-        trips = _load_trips_locked(app.config["TRIPS_FILE"])
+        trip = get_trip_by_id(clean_id, filepath=app.config.get("TRIPS_FILE"))
+        if trip:
+            return jsonify({"ok": True, "trip": trip}), 200
     except StorageCorruptedError as corrupt_err:
         return (
             jsonify({
@@ -527,6 +464,18 @@ def get_trip(trip_id: str):
                 "error": {
                     "code": "DATA_CORRUPT",
                     "message": str(corrupt_err),
+                },
+            }),
+            500,
+        )
+    except StorageError as storage_err:
+        logger.exception("Storage failure reading trip %s: %s", trip_id, storage_err)
+        return (
+            jsonify({
+                "ok": False,
+                "error": {
+                    "code": "STORAGE_ERROR",
+                    "message": str(storage_err),
                 },
             }),
             500,
@@ -544,10 +493,6 @@ def get_trip(trip_id: str):
             500,
         )
 
-    for trip in trips:
-        if str(trip.get("trip_id", "")).strip().lower() == clean_id:
-            return jsonify({"ok": True, "trip": trip}), 200
-
     return (
         jsonify({
             "ok": False,
@@ -560,12 +505,80 @@ def get_trip(trip_id: str):
     )
 
 
+@app.route("/api/trips/<trip_id>", methods=["PUT"])
+def update_trip_endpoint(trip_id: str):
+    """Update an existing saved trip by trip_id."""
+    clean_id = trip_id.strip()
+    payload = request.get_json(silent=True)
+    if not isinstance(payload, dict):
+        return (
+            jsonify({
+                "ok": False,
+                "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Request body must be a valid JSON object.",
+                },
+            }),
+            400,
+        )
+
+    try:
+        updated = storage_update_trip(clean_id, payload, filepath=app.config.get("TRIPS_FILE"))
+        if not updated:
+            return (
+                jsonify({
+                    "ok": False,
+                    "error": {
+                        "code": "NOT_FOUND",
+                        "message": f"Trip with ID '{trip_id}' was not found.",
+                    },
+                }),
+                404,
+            )
+        return jsonify({"ok": True, "message": "Trip updated successfully."}), 200
+    except StorageCorruptedError as corrupt_err:
+        return (
+            jsonify({
+                "ok": False,
+                "error": {
+                    "code": "DATA_CORRUPT",
+                    "message": str(corrupt_err),
+                },
+            }),
+            500,
+        )
+    except StorageError as storage_err:
+        logger.exception("Storage failure updating trip %s: %s", trip_id, storage_err)
+        return (
+            jsonify({
+                "ok": False,
+                "error": {
+                    "code": "STORAGE_ERROR",
+                    "message": str(storage_err),
+                },
+            }),
+            500,
+        )
+    except Exception as exc:
+        logger.exception("Failed to update trip: %s", exc)
+        return (
+            jsonify({
+                "ok": False,
+                "error": {
+                    "code": "STORAGE_ERROR",
+                    "message": "Failed to update trip.",
+                },
+            }),
+            500,
+        )
+
+
 @app.route("/api/trips/<trip_id>", methods=["DELETE"])
 def delete_trip(trip_id: str):
     """Delete a single saved trip by trip_id."""
     clean_id = trip_id.strip()
     try:
-        deleted = _delete_trip_locked(app.config["TRIPS_FILE"], clean_id)
+        deleted = storage_delete_trip(clean_id, filepath=app.config.get("TRIPS_FILE"))
         if not deleted:
             return (
                 jsonify({
@@ -585,6 +598,18 @@ def delete_trip(trip_id: str):
                 "error": {
                     "code": "DATA_CORRUPT",
                     "message": str(corrupt_err),
+                },
+            }),
+            500,
+        )
+    except StorageError as storage_err:
+        logger.exception("Storage failure deleting trip %s: %s", trip_id, storage_err)
+        return (
+            jsonify({
+                "ok": False,
+                "error": {
+                    "code": "STORAGE_ERROR",
+                    "message": str(storage_err),
                 },
             }),
             500,

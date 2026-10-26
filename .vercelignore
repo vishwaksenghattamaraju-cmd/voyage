@@ -1,0 +1,11 @@
+.venv/
+.env
+.git/
+.vscode/
+tests/
+__pycache__/
+*.pyc
+*.corrupt-*.json
+*.tmp
+trips.json.corrupt-*
+scratch*

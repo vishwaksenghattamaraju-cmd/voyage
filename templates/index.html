@@ -126,7 +126,13 @@
                 Voyage AI
               {% endif %}
             </span>
-            <span class="pill-desc">$0 Cost · 100% Guaranteed</span>
+            <span class="pill-desc">
+              {% if is_cloud_db %}
+                Supabase DB Active
+              {% else %}
+                $0 Cost · 100% Guaranteed
+              {% endif %}
+            </span>
           </div>
         </div>
       </div>

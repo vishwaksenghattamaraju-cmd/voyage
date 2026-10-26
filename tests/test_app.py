@@ -16,7 +16,6 @@ import json
 import os
 import shutil
 import tempfile
-import time
 import unittest
 from unittest.mock import patch
 
@@ -231,6 +230,32 @@ class AppTestCase(unittest.TestCase):
         self.assertEqual(res_none.status_code, 404)
         self.assertFalse(res_none.get_json()["ok"])
         self.assertEqual(res_none.get_json()["error"]["code"], "NOT_FOUND")
+
+        # Update by ID: existing
+        up_res = self.client.put("/api/trips/id-2", json={"destination": "Kyoto Updated", "trip_id": "id-2"})
+        self.assertEqual(up_res.status_code, 200)
+        self.assertTrue(up_res.get_json()["ok"])
+        self.assertEqual(self.client.get("/api/trips/id-2").get_json()["trip"]["destination"], "Kyoto Updated")
+
+        # Update by ID: non-existent
+        up_none = self.client.put("/api/trips/id-999", json={"destination": "Nowhere", "trip_id": "id-999"})
+        self.assertEqual(up_none.status_code, 404)
+        self.assertFalse(up_none.get_json()["ok"])
+
+        # Delete by ID: existing
+        del_res = self.client.delete("/api/trips/id-1")
+        self.assertEqual(del_res.status_code, 200)
+        self.assertTrue(del_res.get_json()["ok"])
+
+        # Verify id-1 is deleted
+        res_after = self.client.get("/api/trips")
+        self.assertEqual(len(res_after.get_json()["trips"]), 1)
+        self.assertEqual(res_after.get_json()["trips"][0]["trip_id"], "id-2")
+
+        # Delete by ID: non-existent
+        del_none = self.client.delete("/api/trips/id-1")
+        self.assertEqual(del_none.status_code, 404)
+        self.assertFalse(del_none.get_json()["ok"])
 
     def test_missing_trips_file_is_created(self):
         """Test that if trips.json does not exist, GET /api/trips creates it as [] and returns empty list."""
